@@ -8,10 +8,10 @@ android {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 dependencies {
-    implementation("org.jetbrains:annotations:15.0")
+    implementation("org.jetbrains:annotations:23.0.0")
 }

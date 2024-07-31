@@ -25,7 +25,7 @@ val Project.gitVersionName: String
         try {
             val stdout = ByteArrayOutputStream()
             exec {
-                commandLine("git", "describe", "--always", "--tags", "--dirty")
+                commandLine("git", "describe", "--always", "--tags")
                 standardOutput = stdout
             }
             stdout.toString("utf-8").trim('\n')
