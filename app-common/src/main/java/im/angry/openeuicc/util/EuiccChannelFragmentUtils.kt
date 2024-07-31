@@ -31,6 +31,8 @@ val <T> T.portId: Int where T: Fragment, T: EuiccChannelFragmentMarker
     get() = requireArguments().getInt("portId")
 val <T> T.isUsb: Boolean where T: Fragment, T: EuiccChannelFragmentMarker
     get() = requireArguments().getInt("slotId") == EuiccChannelManager.USB_CHANNEL_ID
+val <T> T.isRemovable: Boolean where T: Fragment, T: EuiccChannelFragmentMarker
+    get() = requireArguments().getBoolean("removable")
 
 val <T> T.euiccChannelManager: EuiccChannelManager where T: Fragment, T: EuiccChannelFragmentMarker
     get() = (requireActivity() as BaseEuiccAccessActivity).euiccChannelManager
