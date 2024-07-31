@@ -119,11 +119,19 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
     }
 
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_euicc_chip, menu)
         inflater.inflate(R.menu.fragment_euicc, menu)
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
+            R.id.show_euicc_info -> {
+                Intent(requireContext(), EuiccInfo2Activity::class.java).apply {
+                    putExtra("logicalSlotId", channel.logicalSlotId)
+                    startActivity(this)
+                }
+                true
+            }
             R.id.show_notifications -> {
                 Intent(requireContext(), NotificationsActivity::class.java).apply {
                     putExtra("logicalSlotId", channel.logicalSlotId)

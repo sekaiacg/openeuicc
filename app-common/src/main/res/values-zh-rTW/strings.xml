@@ -43,6 +43,11 @@
     <string name="task_profile_switch">正在切換eSIM配置文件</string>
     <string name="task_profile_switch_failure">无法切换eSIM配置文件</string>
 
+    <string name="euicc_chip">eUICC 晶片</string>
+    <string name="euicc_chip_detailed_format">eUICC 晶片 (%s)</string>
+    <string name="euicc_chip_info_show">eUICC晶片資訊</string>
+    <string name="euicc_chip_help">eUICC晶片/設備的資訊。</string>
+
     <string name="profile_download">添加新eSIM</string>
     <string name="profile_download_server">伺服器(RSP / SM-DP+)</string>
     <string name="profile_download_code">啟用碼</string>

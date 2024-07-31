@@ -44,6 +44,33 @@
     <string name="task_profile_switch">Switching eSIM profile</string>
     <string name="task_profile_switch_failure">Failed to switch eSIM profile</string>
 
+    <string name="euicc_chip">eUICC chip</string>
+    <string name="euicc_chip_detailed_format">eUICC chip (%s)</string>
+    <string name="euicc_chip_info_show">eUICC information</string>
+    <string name="euicc_chip_help">Information the eUICC chip/device.</string>
+    <string name="euicc_info_title" translatable="false">eUICC information</string>
+    <string name="euicc_info_progress_getting_euicc_info" translatable="false">Reading eUICC information</string>
+    <string name="euicc_info_eid_title" translatable="false">EID</string>
+    <string name="euicc_info_manufacturer_title" translatable="false">Manufacturer</string>
+    <string name="euicc_info_configured_addresses_title" translatable="false">eUICC Configured Addresses</string>
+    <string name="euicc_info_configured_addresses" translatable="false">defaultDpAddress: %1$s\nrootDsAddress: %2$s</string>
+    <string name="euicc_info_tca_version_title" translatable="false">TCA eUICC Profile Package Version</string>
+    <string name="euicc_info_gsma_sgp_22_version_title" translatable="false">GSMA SGP.22 Version</string>
+    <string name="euicc_info_euicc_firmware_version_title" translatable="false">eUICC Firmware Version</string>
+    <string name="euicc_info_ext_card_resource_title" translatable="false">Extended Card Resource Information</string>
+    <string name="euicc_info_ext_card_resource" translatable="false">Installed Application: %1$d\nFree Non-volatile Memory: %2$s\nFree Volatile Memory: %3$s</string>
+    <string name="euicc_info_uicc_capability_title" translatable="false">UICC Capability</string>
+    <string name="euicc_info_ts102241_version_title" translatable="false">JavaCard Version</string>
+    <string name="euicc_info_globalplatform_version_title" translatable="false">GlobalPlatform Version</string>
+    <string name="euicc_info_rsp_capability_title" translatable="false">RSP Capability</string>
+    <string name="euicc_info_pki_ids_title" translatable="false">PKI IDs</string>
+    <string name="euicc_info_euicc_category_title" translatable="false">eUICC Category</string>
+    <string name="euicc_info_euicc_info_forbidden_profile_policy_rules_title" translatable="false">Forbidden Profile Policy Rules</string>
+    <string name="euicc_info_protection_profile_version_title" translatable="false">Protection Profile Version</string>
+    <string name="euicc_info_euicc_sas_accreditation_number_title" translatable="false">SAS Accreditation Number</string>
+    <string name="euicc_info_certificationDataObject_title" translatable="false">Certification Data</string>
+    <string name="euicc_info_certificationDataObject" translatable="false">platformLabel: %1$s\ndiscoveryBaseURL: %2$s</string>
+
     <string name="profile_download">New eSIM</string>
     <string name="profile_download_server">Server (RSP / SM-DP+)</string>
     <string name="profile_download_code">Activation Code</string>
