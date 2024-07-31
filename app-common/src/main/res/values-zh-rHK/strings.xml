@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_euicc">在此設備上未檢測到此應用程式可存取的可拆卸eUICC卡。請插入相容卡或USB晶片讀卡機。</string>
+    <string name="no_profile">此eSIM上還沒有配置文件</string>
+    <string name="unknown">未知的</string>
+    <string name="help">幫助</string>
+    <string name="reload">重新載入卡槽</string>
+
+    <string name="channel_name_format">邏輯卡槽 %d</string>
+
+    <string name="enabled">已啟用</string>
+    <string name="disabled">已禁用</string>
+    <string name="provider">供應商:</string>
+    <string name="iccid">ICCID:</string>
+
+    <string name="enable">啟用</string>
+    <string name="disable">禁用</string>
+    <string name="delete">刪除</string>
+    <string name="rename">重新命名</string>
+
+    <string name="enable_disable_timeout">等待eSIM晶片切換配置文件時超時。這可能是您手機基帶韌體中的一個錯誤。請嘗試切換飛航模式、重新啟動應用程式或重新啟動手機</string>
+    <string name="switch_did_not_refresh">操作成功, 但是您手機的基帶拒絕刷新。您可能需要切換飛航模式或重新啟動，以便使用新的配置文件。</string>
+
+    <string name="toast_profile_enable_failed">無法切換到新的eSIM配置文件。</string>
+    <string name="toast_profile_name_too_long">暱稱不能超過64個字元</string>
+    <string name="toast_iccid_copied">已複製ICCID到剪貼簿</string>
+
+    <string name="slot_select">選擇卡槽</string>
+    <string name="slot_select_select">選擇</string>
+
+    <string name="usb_permission">授予USB權限</string>
+    <string name="usb_permission_needed">需要獲得存取USB晶片讀卡機的權限。</string>
+    <string name="usb_failed">無法通過USB晶片讀卡機連接到eSIM。</string>
+
+    <string name="task_notification">長時間執行的任務</string>
+    <string name="task_profile_download">正在下載eSIM配置文件</string>
+    <string name="task_profile_download_failure">無法下載eSIM配置文件</string>
+    <string name="task_profile_rename">正在重新命名eSIM配置文件</string>
+    <string name="task_profile_rename_failure">無法重新命名eSIM配置文件</string>
+    <string name="task_profile_delete">正在删除eSIM配置文件</string>
+    <string name="task_profile_delete_failure">無法刪除eSIM配置文件</string>
+    <string name="task_profile_switch">正在切換eSIM配置文件</string>
+    <string name="task_profile_switch_failure">無法切換eSIM配置文件</string>
+
+    <string name="profile_download">添加新eSIM</string>
+    <string name="profile_download_server">伺服器(RSP / SM-DP+)</string>
+    <string name="profile_download_code">啟用碼</string>
+    <string name="profile_download_confirmation_code">確認碼(可選)</string>
+    <string name="profile_download_imei">IMEI(可選)</string>
+    <string name="profile_download_free_space">剩餘空間: %s</string>
+    <string name="profile_download_scan">掃描二維碼</string>
+    <string name="profile_download_scan_from_gallery">選擇二維碼圖片</string>
+    <string name="profile_download_ok">下載</string>
+    <string name="profile_download_failed">"下載eSIM失敗，請檢查您的啟用碼/二維碼。"</string>
+
+    <string name="profile_rename_new_name">新暱稱</string>
+
+    <string name="profile_delete_confirm">您確定要刪除\"%s\"嗎？此操作是不可逆的。</string>
+    <string name="profile_delete_confirm_input">請輸入\'%s\'以確認刪除</string>
+
+    <string name="profile_notifications">通知列表</string>
+    <string name="profile_notifications_detailed_format">通知列表 (%s)</string>
+    <string name="profile_notifications_show">管理通知</string>
+    <string name="profile_notifications_help">eSIM配置文件可以在下載、刪除、啟用或禁用時向電信營運商發送通知。此處列出了要發送的這些通知的佇列。\n\n在\"設置\"中，您可以指定是否自動發送每種類型的通知。請注意，即使通知已發送，也不會自動從記錄中刪除，除非佇列空間不足。\n\n在這裡，您可以手動發送或刪除每個待處理的通知。</string>
+    <string name="profile_notification_operation_download">已下載</string>
+    <string name="profile_notification_operation_delete">已刪除</string>
+    <string name="profile_notification_operation_enable">已啟用</string>
+    <string name="profile_notification_operation_disable">已禁用</string>
+    <string name="profile_notification_name_format">&lt;b&gt;%1$s&lt;/b&gt; %2$s (%3$s)</string>
+    <string name="profile_notification_process">處理</string>
+    <string name="profile_notification_delete">刪除</string>
+
+    <string name="logs_save">儲存日誌</string>
+    <string name="logs_filename_template">Logs at %s</string>
+
+    <string name="pref_settings">設置</string>
+    <string name="pref_notifications">通知</string>
+    <string name="pref_notifications_desc">操作eSIM配置文件會向電信營運商發送通知。根據需要在此處微調此行為。</string>
+    <string name="pref_notifications_download">Downloads</string>
+    <string name="pref_notifications_download_desc">發送 <i>下載</i> 配置文件的通知</string>
+    <string name="pref_notifications_delete">Deletion</string>
+    <string name="pref_notifications_delete_desc">發送 <i>刪除</i> 配置文件的通知</string>
+    <string name="pref_notifications_switch">Switching</string>
+    <string name="pref_notifications_switch_desc">發送 <i>切換</i> 配置文件的通知\n注意，這種類型的通知是不可靠的。</string>
+    <string name="pref_advanced">進階</string>
+    <string name="pref_advanced_disable_safeguard_removable_esim">允許 禁用/刪除 已啟用的配置文件</string>
+    <string name="pref_advanced_disable_safeguard_removable_esim_desc">預設情況下，此應用程式會阻止您禁用可拆卸eSIM中已啟用的配置文件。\n因為這樣做 <i>有時</i> 會使其無法存取。\n勾選此框以 <i>關閉</i> 此保護措施。</string>
+    <string name="pref_advanced_verbose_logging">記錄詳細日誌</string>
+    <string name="pref_advanced_verbose_logging_desc">詳細日誌中包含敏感資訊，開啟此功能後請僅與你信任的人分享你的日誌。</string>
+    <string name="pref_advanced_logs">日誌</string>
+    <string name="pref_advanced_logs_desc">查看應用程式的最新除錯日誌</string>
+    <string name="pref_info">資訊</string>
+    <string name="pref_info_app_version">App 版本</string>
+    <string name="pref_info_source_code">原始碼</string>
+</resources>

@@ -12,6 +12,7 @@
 
         <activity
             android:name="im.angry.openeuicc.ui.UnprivilegedMainActivity"
+            android:configChanges="locale"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
