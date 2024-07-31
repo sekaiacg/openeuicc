@@ -44,6 +44,9 @@ class MySigningPlugin: Plugin<Project> {
                         storePassword = keystore[ext?.storePasswordField ?: "storePassword"] as String?
                         keyAlias = keystore[ext?.keyAliasField ?: "keyAlias"] as String?
                         keyPassword = keystore[ext?.keyPasswordField ?: "keyPassword"] as String?
+                        enableV1Signing = true
+                        enableV2Signing = true
+                        enableV3Signing = true
                     }
                 }
 

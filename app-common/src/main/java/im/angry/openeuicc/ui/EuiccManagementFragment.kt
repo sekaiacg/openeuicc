@@ -19,10 +19,12 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +43,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
-    EuiccChannelFragmentMarker {
+    EuiccChannelFragmentMarker, MenuProvider {
     companion object {
         const val TAG = "EuiccManagementFragment"
 
@@ -62,11 +64,6 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
     // Subscribe to settings we care about outside of coroutine contexts while initializing
     // This gives us access to the "latest" state without having to launch coroutines
     private lateinit var disableSafeguardFlow: StateFlow<Boolean>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,6 +88,8 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
 
             WindowInsetsCompat.CONSUMED
         }
+
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         setupRootViewInsets(profileList)
 
@@ -119,12 +118,11 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
         refresh()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_euicc, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+    override fun onMenuItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.show_notifications -> {
                 Intent(requireContext(), NotificationsActivity::class.java).apply {
@@ -133,8 +131,7 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
                 }
                 true
             }
-
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
 
     protected open suspend fun onCreateFooterViews(
