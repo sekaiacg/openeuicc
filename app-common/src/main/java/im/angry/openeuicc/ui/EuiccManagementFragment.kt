@@ -63,6 +63,8 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
     // This gives us access to the "latest" state without having to launch coroutines
     private lateinit var disableSafeguardFlow: StateFlow<Boolean>
 
+    private lateinit var profileShowAllFlow: StateFlow<Boolean>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -179,10 +181,15 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
                 preferenceRepository.disableSafeguardFlow.stateIn(lifecycleScope)
         }
 
+        if (!this@EuiccManagementFragment::profileShowAllFlow.isInitialized) {
+            profileShowAllFlow =
+                preferenceRepository.profileShowAllFlow.stateIn(lifecycleScope)
+        }
+
         val profiles = withEuiccChannel { channel ->
             logicalSlotId = channel.logicalSlotId
             euiccChannelManager.notifyEuiccProfilesChanged(channel.logicalSlotId)
-            channel.lpa.profiles.operational
+            if (profileShowAllFlow.value) channel.lpa.profiles else channel.lpa.profiles.operational
         }
 
         withContext(Dispatchers.Main) {
@@ -282,6 +289,11 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
                 popup.menu.findItem(R.id.disable).isVisible = true
             }
         }
+        if (profile.profileClass == LocalProfileInfo.Clazz.Provisioning) {
+            popup.menu.findItem(R.id.rename).isVisible = false
+            popup.menu.findItem(R.id.delete).isVisible = false
+        }
+
     }
 
     sealed class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
