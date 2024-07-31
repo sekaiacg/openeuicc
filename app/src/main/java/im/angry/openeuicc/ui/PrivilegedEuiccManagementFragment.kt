@@ -12,8 +12,10 @@ import net.typeblog.lpac_jni.LocalProfileInfo
 
 class PrivilegedEuiccManagementFragment: EuiccManagementFragment() {
     companion object {
-        fun newInstance(slotId: Int, portId: Int): EuiccManagementFragment =
-            newInstanceEuicc(PrivilegedEuiccManagementFragment::class.java, slotId, portId)
+        fun newInstance(slotId: Int, portId: Int, removable: Boolean): EuiccManagementFragment =
+            newInstanceEuicc(PrivilegedEuiccManagementFragment::class.java, slotId, portId) {
+                putBoolean("removable", removable)
+            }
     }
 
     override suspend fun onCreateFooterViews(
@@ -36,7 +38,7 @@ class PrivilegedEuiccManagementFragment: EuiccManagementFragment() {
 
     override fun populatePopupWithProfileActions(popup: PopupMenu, profile: LocalProfileInfo) {
         super.populatePopupWithProfileActions(popup, profile)
-        if (profile.isEnabled && !channel.removable) {
+        if (profile.isEnabled && !isRemovable) {
             // Only show the disable option for non-removable eUICCs
             // Some devices without internal eUICCs have the "optimization" of ignoring SIM
             // slots without a valid profile. This can lead to "bricking" of external eUICCs
