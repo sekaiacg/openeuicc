@@ -7,8 +7,8 @@
     <string name="reload">Reload Slots</string>
 
     <string name="channel_name_format">Logical Slot %d</string>
-    <string name="usb">USB</string>
-    <string name="omapi">OpenMobile API (OMAPI)</string>
+    <string name="usb" translatable="false">USB</string>
+    <string name="omapi" translatable="false">OpenMobile API (OMAPI)</string>
 
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
@@ -75,24 +75,24 @@
     <string name="profile_notification_process">Process</string>
     <string name="profile_notification_delete">Delete</string>
 
-    <string name="euicc_info">eUICC Info</string>
-    <string name="euicc_info_activity_title">eUICC Info (%s)</string>
-    <string name="euicc_info_access_mode">Access Mode</string>
-    <string name="euicc_info_removable">Removable</string>
-    <string name="euicc_info_eid">EID</string>
-    <string name="euicc_info_firmware_version">eUICC OS Version</string>
-    <string name="euicc_info_globalplatform_version">GlobalPlatform Version</string>
-    <string name="euicc_info_sas_accreditation_number">SAS Accreditation Number</string>
-    <string name="euicc_info_pp_version">Protected Profile Version</string>
-    <string name="euicc_info_free_nvram">Free NVRAM (eSIM profile storage)</string>
-    <string name="euicc_info_gsma_prod">GSMA Production Certificate</string>
-    <string name="euicc_info_gsma_test">GSMA Test Certificate</string>
+    <string name="euicc_info" translatable="false">eUICC Info</string>
+    <string name="euicc_info_activity_title" translatable="false">eUICC Info (%s)</string>
+    <string name="euicc_info_access_mode" translatable="false">Access Mode</string>
+    <string name="euicc_info_removable" translatable="false">Removable</string>
+    <string name="euicc_info_eid" translatable="false">EID</string>
+    <string name="euicc_info_firmware_version" translatable="false">eUICC OS Version</string>
+    <string name="euicc_info_globalplatform_version" translatable="false">GlobalPlatform Version</string>
+    <string name="euicc_info_sas_accreditation_number" translatable="false">SAS Accreditation Number</string>
+    <string name="euicc_info_pp_version" translatable="false">Protected Profile Version</string>
+    <string name="euicc_info_free_nvram" translatable="false">Free NVRAM (eSIM profile storage)</string>
+    <string name="euicc_info_gsma_prod" translatable="false">GSMA Production Certificate</string>
+    <string name="euicc_info_gsma_test" translatable="false">GSMA Test Certificate</string>
 
-    <string name="supported">Supported</string>
-    <string name="unsupported">Unsupported</string>
+    <string name="supported" translatable="false">Supported</string>
+    <string name="unsupported" translatable="false">Unsupported</string>
 
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="yes" translatable="false">Yes</string>
+    <string name="no" translatable="false">No</string>
 
     <string name="logs_save">Save</string>
     <string name="logs_filename_template">Logs at %s</string>

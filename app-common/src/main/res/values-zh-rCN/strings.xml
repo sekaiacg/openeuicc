@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_euicc">在此设备上未检测到此应用程序可访问的可移动eUICC卡。请插入兼容卡或USB读卡器。</string>
+    <string name="no_profile">此eSIM上还没有配置文件</string>
+    <string name="unknown">未知的</string>
+    <string name="help">帮助</string>
+    <string name="reload">重新加载插槽</string>
+
+    <string name="channel_name_format">逻辑插槽 %d</string>
+
+    <string name="enabled">已启用</string>
+    <string name="disabled">已禁用</string>
+    <string name="provider">提供商:</string>
+    <string name="iccid">ICCID:</string>
+
+    <string name="enable">启用</string>
+    <string name="disable">禁用</string>
+    <string name="delete">删除</string>
+    <string name="rename">重命名</string>
+
+    <string name="enable_disable_timeout">等待eSIM芯片切换配置文件时超时。这可能是您手机基带固件中的一个错误。请尝试切换飞行模式、重新启动应用程序或重新启动手机</string>
+    <string name="switch_did_not_refresh">操作成功, 但是您手机的基带拒绝刷新。您可能需要切换飞行模式或重新启动，以便使用新的配置文件。</string>
+
+    <string name="toast_profile_enable_failed">无法切换到新的eSIM配置文件。</string>
+    <string name="toast_profile_name_too_long">昵称不能超过64个字符</string>
+    <string name="toast_iccid_copied">已复制ICCID到剪贴板</string>
+
+    <string name="slot_select">选择插槽</string>
+    <string name="slot_select_select">选择</string>
+
+    <string name="usb_permission">授予USB权限</string>
+    <string name="usb_permission_needed">需要获得访问USB智能卡读卡器的权限。</string>
+    <string name="usb_failed">无法通过USB智能卡读卡器连接到eSIM。</string>
+
+    <string name="task_notification">长时间运行的任务</string>
+    <string name="task_profile_download">正在下载eSIM配置文件</string>
+    <string name="task_profile_download_failure">无法下载eSIM配置文件</string>
+    <string name="task_profile_rename">正在重命名eSIM配置文件</string>
+    <string name="task_profile_rename_failure">无法重命名eSIM配置文件</string>
+    <string name="task_profile_delete">正在删除eSIM配置文件</string>
+    <string name="task_profile_delete_failure">无法删除eSIM配置文件</string>
+    <string name="task_profile_switch">正在切换eSIM配置文件</string>
+    <string name="task_profile_switch_failure">无法切换eSIM配置文件</string>
+
+    <string name="profile_download">添加新eSIM</string>
+    <string name="profile_download_server">服务器(RSP / SM-DP+)</string>
+    <string name="profile_download_code">激活码</string>
+    <string name="profile_download_confirmation_code">确认码(可选)</string>
+    <string name="profile_download_imei">IMEI(可选)</string>
+    <string name="profile_download_free_space">剩余空间: %s</string>
+    <string name="profile_download_scan">扫描二维码</string>
+    <string name="profile_download_scan_from_gallery">选择二维码图片</string>
+    <string name="profile_download_ok">下载</string>
+    <string name="profile_download_failed">"下载eSIM失败，请检查您的激活码/二维码。"</string>
+
+    <string name="profile_download_low_nvram_title">本次下载可能会失败</string>
+    <string name="profile_download_low_nvram_message">当前芯片的剩余空间不足，可能导致配置下载失败。\n是否继续下载？</string>
+
+    <string name="profile_rename_new_name">新昵称</string>
+
+    <string name="profile_delete_confirm">您确定要删除 %s 吗？此操作是不可逆的。</string>
+    <string name="profile_delete_confirm_input">请输入\'%s\'以确认删除</string>
+
+    <string name="profile_notifications">通知列表</string>
+    <string name="profile_notifications_detailed_format">通知列表 (%s)</string>
+    <string name="profile_notifications_show">管理通知</string>
+    <string name="profile_notifications_help">eSIM配置文件可以在下载、删除、启用或禁用时向运营商发送通知。此处列出了要发送的这些通知的队列。\n\n在\"设置\"中，您可以指定是否自动发送每种类型的通知。请注意，即使通知已发送，也不会自动从记录中删除，除非队列空间不足。\n\n在这里，您可以手动发送或删除每个待处理的通知。</string>
+    <string name="profile_notification_operation_download">已下载</string>
+    <string name="profile_notification_operation_delete">已删除</string>
+    <string name="profile_notification_operation_enable">已启用</string>
+    <string name="profile_notification_operation_disable">已禁用</string>
+    <string name="profile_notification_name_format">&lt;b&gt;%1$s&lt;/b&gt; %2$s (%3$s)</string>
+    <string name="profile_notification_process">处理</string>
+    <string name="profile_notification_delete">删除</string>
+
+    <string name="logs_save">保存日志</string>
+    <string name="logs_filename_template">Logs at %s</string>
+
+    <string name="pref_settings">设置</string>
+    <string name="pref_notifications">通知</string>
+    <string name="pref_notifications_desc">操作eSIM配置文件会向运营商发送通知。根据需要在此处微调此行为。</string>
+    <string name="pref_notifications_download">Downloads</string>
+    <string name="pref_notifications_download_desc">发送 <i>下载</i> 配置文件的通知</string>
+    <string name="pref_notifications_delete">Deletion</string>
+    <string name="pref_notifications_delete_desc">发送 <i>删除</i> 配置文件的通知</string>
+    <string name="pref_notifications_switch">Switching</string>
+    <string name="pref_notifications_switch_desc">发送 <i>切换</i> 配置文件的通知\n注意，这种类型的通知是不可靠的。</string>
+    <string name="pref_advanced">高级</string>
+    <string name="pref_advanced_disable_safeguard_removable_esim">允许 禁用/删除 已启用的配置文件</string>
+    <string name="pref_advanced_disable_safeguard_removable_esim_desc">默认情况下，此应用程序会阻止您禁用可移动eSIM中已启用的配置文件。\n因为这样做 <i>有时</i> 会使其无法访问。\n勾选此框以 <i>移除</i> 此保护措施。</string>
+    <string name="pref_advanced_verbose_logging">记录详细日志</string>
+    <string name="pref_advanced_verbose_logging_desc">详细日志中包含敏感信息，开启此功能后请仅与你信任的人共享你的日志。</string>
+    <string name="pref_advanced_logs">日志</string>
+    <string name="pref_advanced_logs_desc">查看应用程序的最新调试日志</string>
+    <string name="pref_info">信息</string>
+    <string name="pref_info_app_version">App 版本</string>
+    <string name="pref_info_source_code">源码</string>
+</resources>

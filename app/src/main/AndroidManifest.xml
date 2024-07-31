@@ -22,6 +22,7 @@
         android:theme="@style/Theme.OpenEUICC">
         <activity
             android:name=".ui.PrivilegedMainActivity"
+            android:configChanges="locale"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
