@@ -7,6 +7,7 @@ interface LocalProfileAssistant {
     val eID: String
     // Extended EuiccInfo for use with LUIs, containing information such as firmware version
     val euiccInfo2: EuiccInfo2?
+    val euiccConfiguredAddresses: EuiccConfiguredAddresses?
 
     // All blocking functions in this class assume that they are executed on non-Main threads
     // The IO context in Kotlin's coroutine library is recommended.
