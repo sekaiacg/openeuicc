@@ -47,6 +47,9 @@ class SettingsFragment: PreferenceFragmentCompat() {
 
         findPreference<CheckBoxPreference>("pref_advanced_disable_safeguard_removable_esim")
             ?.bindBooleanFlow(preferenceRepository.disableSafeguardFlow, PreferenceKeys.DISABLE_SAFEGUARD_REMOVABLE_ESIM)
+
+        findPreference<CheckBoxPreference>("pref_advanced_profile_show_all")
+            ?.bindBooleanFlow(preferenceRepository.profileShowAllFlow, PreferenceKeys.PROFILE_SHOW_ALL)
     }
 
     override fun onStart() {

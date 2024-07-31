@@ -12,7 +12,10 @@ import net.typeblog.lpac_jni.LocalProfileInfo
 import im.angry.openeuicc.core.EuiccChannel
 import im.angry.openeuicc.core.EuiccChannelManager
 import im.angry.openeuicc.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.lang.IllegalStateException
 
@@ -183,7 +186,13 @@ class OpenEuiccService : EuiccService(), OpenEuiccContextMarker {
                 arrayOf(),
                 true
             )
-        val profiles = channel.lpa.profiles.operational.map {
+
+        val _profiles = if (CoroutineScope(Dispatchers.Main).launch { preferenceRepository.profileShowAllFlow.first() }.start())
+                channel.lpa.profiles
+            else
+                channel.lpa.profiles.operational
+
+        val profiles = _profiles.map {
             EuiccProfileInfo.Builder(it.iccid).apply {
                 setProfileName(it.name)
                 setNickname(it.displayName)
