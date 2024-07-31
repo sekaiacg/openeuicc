@@ -304,6 +304,7 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
         private val name: TextView = root.requireViewById(R.id.name)
         private val state: TextView = root.requireViewById(R.id.state)
         private val provider: TextView = root.requireViewById(R.id.provider)
+        private val profileClass: TextView = root.requireViewById(R.id.profile_class)
         private val profileMenu: ImageButton = root.requireViewById(R.id.profile_menu)
 
         init {
@@ -340,6 +341,7 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
                 }
             )
             provider.text = profile.providerName
+            profileClass.text = profile.profileClass.toString()
             iccid.text = profile.iccid
             iccid.transformationMethod = PasswordTransformationMethod.getInstance()
         }

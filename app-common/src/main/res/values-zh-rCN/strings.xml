@@ -11,6 +11,7 @@
     <string name="enabled">已启用</string>
     <string name="disabled">已禁用</string>
     <string name="provider">提供商:</string>
+    <string name="profile_class">类型:</string>
     <string name="iccid">ICCID:</string>
 
     <string name="enable">启用</string>
