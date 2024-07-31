@@ -91,6 +91,8 @@
     <string name="pref_advanced">高级</string>
     <string name="pref_advanced_disable_safeguard_removable_esim">允许 禁用/删除 已启用的配置文件</string>
     <string name="pref_advanced_disable_safeguard_removable_esim_desc">默认情况下，此应用程序会阻止您禁用可移动eSIM中已启用的配置文件。\n因为这样做 <i>有时</i> 会使其无法访问。\n勾选此框以 <i>移除</i> 此保护措施。</string>
+    <string name="pref_advanced_profile_show_all">显示所有类型的配置</string>
+    <string name="pref_advanced_profile_show_all_desc">默认情况下，仅显示Operational类型的配置。</string>
     <string name="pref_advanced_verbose_logging">记录详细日志</string>
     <string name="pref_advanced_verbose_logging_desc">详细日志中包含敏感信息，开启此功能后请仅与你信任的人共享你的日志。</string>
     <string name="pref_advanced_logs">日志</string>
