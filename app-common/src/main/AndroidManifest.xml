@@ -16,6 +16,10 @@
             android:label="@string/pref_settings" />
 
         <activity
+            android:name="im.angry.openeuicc.ui.EuiccInfo2Activity"
+            android:label="@string/euicc_chip" />
+
+        <activity
             android:name="im.angry.openeuicc.ui.NotificationsActivity"
             android:label="@string/profile_notifications" />
 

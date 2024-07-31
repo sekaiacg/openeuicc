@@ -34,6 +34,12 @@ internal object LpacJni {
     // es10cex (actually part of es10b)
     external fun es10cexGetEuiccInfo2(handle: Long): Long
 
+    // EuiccConfiguredAddresses
+    external fun es10aGetEuiccConfiguredAddresses(handle: Long): Long
+    external fun euiccConfiguredAddressesFree(euiccConfiguredAddresses: Long)
+    external fun euiccConfiguredAddressesGetDefaultDpAddress(euiccConfiguredAddresses: Long): String
+    external fun euiccConfiguredAddressesGetRootDsAddress(euiccConfiguredAddresses: Long): String
+
     // C <-> Java struct / linked list handling
     // C String arrays
     external fun stringArrNext(curr: Long): Long
@@ -58,13 +64,21 @@ internal object LpacJni {
     // EuiccInfo2
     external fun euiccInfo2Free(info: Long)
     external fun euiccInfo2GetProfileVersion(info: Long): String
+    external fun euiccInfo2GetSVN(info: Long): String
     external fun euiccInfo2GetEuiccFirmwareVersion(info: Long): String
+    external fun euiccInfo2GetTs102241Version(info: Long): String
     external fun euiccInfo2GetGlobalPlatformVersion(info: Long): String
+    external fun euiccInfo2GetEuiccCategory(info: Long): String
     external fun euiccInfo2GetSasAcreditationNumber(info: Long): String
     external fun euiccInfo2GetPpVersion(info: Long): String
+    external fun euiccInfo2GetPlatformLabel(info: Long): String
+    external fun euiccInfo2GetDiscoveryBaseURL(info: Long): String
+    external fun euiccInfo2GetInstalledApplication(info: Long): Long
     external fun euiccInfo2GetFreeNonVolatileMemory(info: Long): Long
     external fun euiccInfo2GetFreeVolatileMemory(info: Long): Long
     // C String Arrays
     external fun euiccInfo2GetEuiccCiPKIdListForSigning(info: Long): Long
     external fun euiccInfo2GetEuiccCiPKIdListForVerification(info: Long): Long
+    external fun euiccInfo2GetUiccCapability(info: Long): Long
+    external fun euiccInfo2GetRspCapability(info: Long): Long
 }

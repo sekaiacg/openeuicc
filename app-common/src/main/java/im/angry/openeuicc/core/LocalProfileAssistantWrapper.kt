@@ -1,5 +1,6 @@
 package im.angry.openeuicc.core
 
+import net.typeblog.lpac_jni.EuiccConfiguredAddresses
 import net.typeblog.lpac_jni.EuiccInfo2
 import net.typeblog.lpac_jni.LocalProfileAssistant
 import net.typeblog.lpac_jni.LocalProfileInfo
@@ -29,6 +30,9 @@ class LocalProfileAssistantWrapper(orig: LocalProfileAssistant) :
         get() = lpa.eID
     override val euiccInfo2: EuiccInfo2?
         get() = lpa.euiccInfo2
+
+    override val euiccConfiguredAddresses: EuiccConfiguredAddresses?
+        get() = lpa.euiccConfiguredAddresses
 
     override fun setEs10xMss(mss: Byte) = lpa.setEs10xMss(mss)
 
