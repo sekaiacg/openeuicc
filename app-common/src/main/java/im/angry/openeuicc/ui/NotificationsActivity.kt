@@ -184,7 +184,7 @@ class NotificationsActivity: BaseEuiccAccessActivity(), OpenEuiccContextMarker {
             profileName.text = Html.fromHtml(
                 root.context.getString(R.string.profile_notification_name_format,
                     operationToLocalizedText(value.inner.profileManagementOperation),
-                    value.profileName, value.inner.iccid),
+                    value.inner.seqNumber, value.profileName, value.inner.iccid),
                 Html.FROM_HTML_MODE_COMPACT)
         }
 
