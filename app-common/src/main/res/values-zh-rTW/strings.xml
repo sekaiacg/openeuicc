@@ -75,7 +75,6 @@
     <string name="profile_notification_operation_delete">已刪除</string>
     <string name="profile_notification_operation_enable">已啟用</string>
     <string name="profile_notification_operation_disable">已禁用</string>
-    <string name="profile_notification_name_format">&lt;b&gt;%1$s&lt;/b&gt; %2$s (%3$s)</string>
     <string name="profile_notification_process">處理</string>
     <string name="profile_notification_delete">刪除</string>
 
