@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import im.angry.openeuicc.common.R
 import im.angry.openeuicc.core.EuiccChannel
@@ -136,7 +137,9 @@ class EuiccInfo2Activity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
     )
 
     data class Product(
-        val pattern: String,
+        val prefix: String,
+        @SerializedName("in-range")
+        val inRange: List<List<Int>>?,
         val name: String
     )
 
@@ -147,8 +150,8 @@ class EuiccInfo2Activity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
         val products: List<Product>?
     )
 
-    private fun getManufacturerInfo(eid: String): String {
-        val eumJsonString = BufferedReader(InputStreamReader(getResources().assets.open("eum.json")))
+    private fun getManufacturerInfoV2(eid: String): String {
+        val eumJsonString = BufferedReader(InputStreamReader(getResources().assets.open("eum_v2.json")))
             .useLines { lines ->
                 val results = StringBuilder()
                 lines.forEach { results.append(it) }
@@ -156,8 +159,13 @@ class EuiccInfo2Activity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
             }
         val eumDataList: List<EumData> = Gson().fromJson(eumJsonString, object : TypeToken<List<EumData>>(){}.type)
         eumDataList.find { eid.startsWith(it.eum) }?.apply {
-            products?.find { eid.startsWith(it.pattern.substring(0, it.pattern.length - 1)) }?.apply {
-                return "$manufacturer(${country}): $name"
+            products?.forEach { p ->
+                if (eid.startsWith(p.prefix)) {
+                    p.inRange?.forEach { ir ->
+                        val eidNum = eid.substring(p.prefix.length, eid.length - 2).toInt()
+                        if (eidNum in ir[0]..ir[1]) return "$manufacturer(${country}): ${p.name}"
+                    }
+                }
             }
             return "$manufacturer(${country})"
         }
@@ -173,7 +181,7 @@ class EuiccInfo2Activity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
                     val items = arrayListOf<EuiccInfo2ItemWrapper>()
                     val eid = euiccChannel.lpa.eID
                     items.add(EuiccInfo2ItemWrapper(R.string.euicc_info_eid_title, eid))
-                    getManufacturerInfo(eid).let {
+                    getManufacturerInfoV2(eid).let {
                         if (it.isNotBlank()) {
                             items.add(EuiccInfo2ItemWrapper(R.string.euicc_info_manufacturer_title, it))
                         }
