@@ -225,7 +225,7 @@ class ProfileDownloadFragment : BaseMaterialDialogFragment(),
                 if (parentFragment is EuiccProfilesChangedListener) {
                     (parentFragment as EuiccProfilesChangedListener).onEuiccProfilesChanged()
                 }
-                dismiss()
+                dismissAllowingStateLoss()
             }
         }
     }
