@@ -18,7 +18,7 @@ apply {
 android {
     namespace = "im.angry.easyeuicc"
     compileSdk = 35
-    ndkVersion = "26.1.10909125"
+    ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "im.angry.easyeuicc"
@@ -26,6 +26,9 @@ android {
         targetSdk = 35
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -33,11 +36,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
