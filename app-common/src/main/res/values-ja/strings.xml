@@ -94,6 +94,7 @@
     <string name="download_wizard_error_eid_not_supported">使用しているデバイスまたは eSIM チップの EID は、通信事業者によってサポートされていません。</string>
     <string name="download_wizard_error_eid_mismatch">この eSIM プロファイルは、別のデバイスにダウンロードされています。</string>
     <string name="download_wizard_error_profile_unreleased">この eSIM プロファイルは取り消されました。</string>
+    <string name="download_wizard_error_profile_unavailable">この eSIM プロファイルは利用できません。</string>
     <string name="download_wizard_error_matching_id_refused">アクティベーションコードが無効です。</string>
     <string name="download_wizard_error_profile_retries_exceeded">eSIM プロファイルのダウンロード試行回数の上限を超えました。</string>
     <string name="download_wizard_error_confirmation_code_missing">このプロファイルをダウンロードするには確認コードが必要です。</string>
@@ -123,7 +124,7 @@
     <string name="profile_notification_operation_delete">削除しました</string>
     <string name="profile_notification_operation_enable">有効化済み</string>
     <string name="profile_notification_operation_disable">無効化済み</string>
-    <string name="profile_notification_process">処理</string>
+    <string name="profile_notification_process">送信</string>
     <string name="profile_notification_delete">削除</string>
     <string name="euicc_info">eUICC 情報</string>
     <string name="euicc_info_activity_title">eUICC 情報 (%s)</string>
