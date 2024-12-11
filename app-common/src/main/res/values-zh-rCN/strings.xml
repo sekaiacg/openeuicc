@@ -48,9 +48,9 @@
     <string name="download_wizard_error_suggest_network_unreachable">请连接到其他网络（例如在 Wi-Fi 和数据之间切换）后重试。</string>
     <string name="logs_saved_message">日志已保存到指定路径。需要通过其他 App 分享吗？</string>
     <string name="profile_rename_new_name">新昵称</string>
-    <string name="profile_rename_encoding_error">无法将昵称编码为 UTF-8</string>
+    <string name="profile_rename_encoding_error">无法将昵称编码为 UTF-8 格式的字符串</string>
     <string name="profile_rename_too_long">昵称长于 64 字符</string>
-    <string name="profile_rename_failure">重命名配置文件时发生了未知错误</string>
+    <string name="profile_rename_failure">修改昵称时发生了未知的错误</string>
     <string name="profile_delete_confirm">您确定要删除 %s 吗？此操作是不可逆的。\n\n取决于运营商要求，您可能需要联系运营商或前往其营业厅，才能恢复已删除的 eSIM。</string>
     <string name="profile_delete_confirm_input">请输入\'%s\'以确认删除</string>
     <string name="profile_notifications">通知列表</string>
@@ -61,7 +61,7 @@
     <string name="profile_notification_operation_delete">已删除</string>
     <string name="profile_notification_operation_enable">已启用</string>
     <string name="profile_notification_operation_disable">已禁用</string>
-    <string name="profile_notification_process">处理</string>
+    <string name="profile_notification_process">发送</string>
     <string name="profile_notification_delete">删除</string>
     <string name="logs_save">保存日志</string>
     <string name="logs_filename_template">%s 的日志</string>
@@ -95,9 +95,9 @@
     <string name="profile_class_testing">测试</string>
     <string name="profile_class_provisioning">准备中</string>
     <string name="profile_class_operational">可用</string>
-    <string name="profile_download_no_lpa_string">未在剪贴板上发现 LPA 码</string>
-    <string name="profile_download_incorrect_lpa_string">LPA 码解析错误</string>
-    <string name="profile_download_incorrect_lpa_string_message">无法将二维码或剪贴板内容解析为 LPA 码</string>
+    <string name="profile_download_no_lpa_string">未在剪贴板上发现 LPA 激活码</string>
+    <string name="profile_download_incorrect_lpa_string">LPA 激活码格式不正确</string>
+    <string name="profile_download_incorrect_lpa_string_message">无法将二维码或剪贴板中的内容解析为 LPA 激活码。</string>
     <string name="download_wizard">下载向导</string>
     <string name="download_wizard_back">返回</string>
     <string name="download_wizard_next">下一步</string>
