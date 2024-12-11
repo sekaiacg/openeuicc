@@ -5,7 +5,7 @@
     <string name="open_sim_toolkit">Open SIM Toolkit</string>
 
     <!-- Settings -->
-    <string name="pref_developer_ara_m" translatable="false">ARA-M SHA-1</string>
+    <string name="pref_developer_ara_m">ARA-M SHA-1(Click to copy to clipboard)</string>
 
     <!-- Toast -->
     <string name="toast_ara_m_copied">ARA-M SHA-1 copied to clipboard</string>
