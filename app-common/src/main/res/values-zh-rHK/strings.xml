@@ -146,8 +146,8 @@
     <string name="pref_developer">開發人員選項</string>
     <string name="pref_developer_unfiltered_profile_list">顯示未經過濾的eSIM列表</string>
     <string name="pref_developer_unfiltered_profile_list_desc">在eSIM列表中包括非生產環境的設定檔</string>
-    <string name="pref_developer_ignore_tls_certificate">忽略 SM-DP+ 的 TLS 證書</string>
-    <string name="pref_developer_ignore_tls_certificate_desc">允許 RSP 伺服器使用任意憑證</string>
+    <string name="pref_developer_ignore_tls_certificate">忽略 SM-DP+ 的 TLS 憑證</string>
+    <string name="pref_developer_ignore_tls_certificate_desc">允許 RSP 伺服器使用任意證書</string>
     <string name="information_unavailable">無資訊</string>
     <string name="profile_download_required_confirmation_code">需要確認碼</string>
     <string name="profile_download_required_confirmation_code_message">您掃描的二維碼或貼上的 LPA 碼需要一個額外的確認碼</string>
