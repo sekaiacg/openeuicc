@@ -1,5 +1,7 @@
 package im.angry.openeuicc.ui.wizard
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -184,6 +186,9 @@ class DownloadWizardActivity: BaseEuiccAccessActivity() {
                 currentFragment?.beforeNext()
                 val nextFrag = currentFragment?.createNextFragment()
                 if (nextFrag == null) {
+                    Intent().apply {
+                        setResult(Activity.RESULT_OK)
+                    }
                     finish()
                 } else {
                     showFragment(nextFrag, R.anim.slide_in_right, R.anim.slide_out_left)

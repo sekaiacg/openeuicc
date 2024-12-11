@@ -1,6 +1,7 @@
 package im.angry.openeuicc.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
@@ -18,6 +19,8 @@ import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -67,9 +70,17 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
 
     private lateinit var unfilteredProfileListFlow: StateFlow<Boolean>
 
+    private lateinit var downloadWizardActivityLaunch: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        downloadWizardActivityLaunch =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    onEuiccProfilesChanged()
+                }
+            }
     }
 
     override fun onCreateView(
@@ -111,13 +122,10 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
         fab.setOnClickListener {
             Intent(requireContext(), DownloadWizardActivity::class.java).apply {
                 putExtra("selectedLogicalSlot", logicalSlotId)
-                startActivity(this)
+                downloadWizardActivityLaunch.launch(this)
             }
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
         refresh()
     }
 
