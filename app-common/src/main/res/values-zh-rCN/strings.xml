@@ -3,6 +3,7 @@
     <string name="no_euicc">在此设备上未检测到此应用程序可访问的可插拔 eUICC 卡。请插入兼容卡或 USB 读卡器。</string>
     <string name="no_profile">此 eSIM 上还没有配置文件</string>
     <string name="unknown">未知</string>
+    <string name="unavailable">不可用</string>
     <string name="help">帮助</string>
     <string name="reload">重新加载卡槽</string>
     <string name="channel_name_format">逻辑卡槽 %d</string>
@@ -20,6 +21,7 @@
     <string name="toast_profile_delete_confirm_text_mismatched">输入的确认文本不匹配</string>
     <string name="toast_iccid_copied">已复制 ICCID 到剪贴板</string>
     <string name="toast_eid_copied">已复制 EID 到剪贴板</string>
+    <string name="toast_atr_copied">已复制 ATR 到剪贴板</string>
     <string name="usb_permission">授予 USB 权限</string>
     <string name="usb_permission_needed">需要获得访问 USB 智能卡读卡器的权限。</string>
     <string name="usb_failed">无法通过 USB 智能卡读卡器连接到 eSIM。</string>
@@ -41,9 +43,9 @@
     <string name="profile_download_low_nvram_message">当前芯片的剩余空间不足，可能导致配置下载失败。\n是否继续下载？</string>
     <string name="logs_saved_message">日志已保存到指定路径。需要通过其他 App 分享吗？</string>
     <string name="profile_rename_new_name">新昵称</string>
-    <string name="profile_rename_encoding_error">无法将昵称编码为 UTF-8</string>
+    <string name="profile_rename_encoding_error">无法将昵称编码为 UTF-8 格式的字符串</string>
     <string name="profile_rename_too_long">昵称长于 64 字符</string>
-    <string name="profile_rename_failure">重命名配置文件时发生了未知错误</string>
+    <string name="profile_rename_failure">修改昵称时发生了未知的错误</string>
     <string name="profile_delete_confirm">您确定要删除 %s 吗？此操作是不可逆的。</string>
     <string name="profile_delete_confirm_input">请输入\'%s\'以确认删除</string>
     <string name="profile_notifications">通知列表</string>
@@ -80,12 +82,13 @@
     <string name="profile_class_testing">测试</string>
     <string name="profile_class_provisioning">准备中</string>
     <string name="profile_class_operational">可用</string>
-    <string name="profile_download_no_lpa_string">未在剪贴板上发现 LPA 码</string>
-    <string name="profile_download_incorrect_lpa_string">LPA 码解析错误</string>
-    <string name="profile_download_incorrect_lpa_string_message">无法将二维码或剪贴板内容解析为 LPA 码</string>
+    <string name="profile_download_no_lpa_string">未在剪贴板上发现 LPA 激活码</string>
+    <string name="profile_download_incorrect_lpa_string">LPA 激活码格式不正确</string>
+    <string name="profile_download_incorrect_lpa_string_message">无法将二维码或剪贴板中的内容解析为 LPA 激活码。</string>
     <string name="download_wizard">下载向导</string>
     <string name="download_wizard_back">返回</string>
     <string name="download_wizard_next">下一步</string>
+    <string name="download_wizard_slot_removed">选定的 SIM 卡已被移除</string>
     <string name="download_wizard_slot_select">请选择或确认下载目标 eSIM 卡槽:</string>
     <string name="download_wizard_slot_type">类型:</string>
     <string name="download_wizard_slot_type_removable">可插拔</string>
@@ -128,7 +131,7 @@
     <string name="euicc_info_ci_type">证书签发者 (CI)</string>
     <string name="euicc_info_ci_gsma_live">GSMA 生产环境 CI</string>
     <string name="euicc_info_ci_gsma_test">GSMA 测试 CI</string>
-    <string name="euicc_info_ci_unknown">未知 eSIM CI</string>
+    <string name="euicc_info_ci_unknown">未知的 eSIM CI</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="developer_options_steps">还有 %d 步成为开发者</string>
