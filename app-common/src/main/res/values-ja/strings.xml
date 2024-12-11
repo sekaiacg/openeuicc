@@ -44,6 +44,7 @@
     <string name="download_wizard">ダウンロードウィザード</string>
     <string name="download_wizard_back">戻る</string>
     <string name="download_wizard_next">次へ</string>
+    <string name="download_wizard_slot_removed">選択した SIM カードが取り外されました</string>
     <string name="download_wizard_slot_select">ダウンロードする eSIM を選択または確認:</string>
     <string name="download_wizard_slot_type">タイプ:</string>
     <string name="download_wizard_slot_type_removable">リムーバブル</string>
