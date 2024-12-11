@@ -21,7 +21,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -383,8 +382,6 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
                 }
             )
             provider.text = profile.providerName
-            profileClassLabel.isVisible = unfilteredProfileListFlow.value
-            profileClass.isVisible = unfilteredProfileListFlow.value
             profileClass.setText(
                 when (profile.profileClass) {
                     LocalProfileInfo.Clazz.Testing -> R.string.profile_class_testing
