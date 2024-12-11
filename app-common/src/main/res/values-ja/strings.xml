@@ -123,7 +123,7 @@
     <string name="profile_notification_operation_delete">削除しました</string>
     <string name="profile_notification_operation_enable">有効化済み</string>
     <string name="profile_notification_operation_disable">無効化済み</string>
-    <string name="profile_notification_process">処理</string>
+    <string name="profile_notification_process">送信</string>
     <string name="profile_notification_delete">削除</string>
     <string name="euicc_info">eSIM 情報</string>
     <string name="euicc_info_activity_title">eSIM 情報 (%s)</string>
