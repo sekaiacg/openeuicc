@@ -130,6 +130,8 @@
     <string name="euicc_info_sn">產品序號</string>
     <string name="euicc_info_bl_ver">產品引導程式版本</string>
     <string name="euicc_info_fw_ver">產品韌體版本</string>
+    <string name="euicc_info_manufacturer">製造商</string>
+    <string name="euicc_info_profile_version">eUICC 支援的配置文件版本</string>
     <string name="euicc_info_sgp22_version">SGP.22 版本</string>
     <string name="euicc_info_firmware_version">eUICC OS 版本</string>
     <string name="euicc_info_globalplatform_version">GlobalPlatform 版本</string>
@@ -140,6 +142,11 @@
     <string name="euicc_info_ci_gsma_live">GSMA 生產環境 CI</string>
     <string name="euicc_info_ci_gsma_test">GSMA 測試 CI</string>
     <string name="euicc_info_ci_unknown">未知的 eSIM CI</string>
+    <string name="euicc_info_ext_card_resource">卡資源延伸資訊</string>
+    <string name="euicc_info_rsp_capability">RSP 能力</string>
+    <string name="euicc_info_uicc_capability">UICC 能力</string>
+    <string name="euicc_info_certification_data_object">Certification 數據</string>
+    <string name="euicc_info_configured_addresses">eUICC 已配置的 SM-DP+/SM-DS 地址</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="developer_options_steps">還有 %d 步成為開發者</string>

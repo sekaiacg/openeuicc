@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import im.angry.openeuicc.common.R
 import im.angry.openeuicc.core.EuiccChannel
 import im.angry.openeuicc.core.EuiccChannelManager
@@ -26,6 +29,8 @@ import im.angry.openeuicc.util.*
 import kotlinx.coroutines.launch
 import net.typeblog.lpac_jni.impl.PKID_GSMA_LIVE_CI
 import net.typeblog.lpac_jni.impl.PKID_GSMA_TEST_CI
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 // https://euicc-manual.osmocom.org/docs/pki/eum/accredited.json
 // ref: <https://regex101.com/r/5FFz8u>
@@ -105,18 +110,63 @@ class EuiccInfoActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
         }
     }
 
+    data class Product(
+        val prefix: String,
+        @SerializedName("in-range")
+        val inRange: List<List<Int>>?,
+        val name: String
+    )
+
+    data class EumData(
+        val eum: String,
+        val country: String,
+        val manufacturer: String,
+        val products: List<Product>?
+    )
+
+    private fun getManufacturerInfoV2(eid: String): String {
+        // https://euicc-manual.osmocom.org/docs/pki/eum/manifest-v2.json
+        val eumJsonString = BufferedReader(InputStreamReader(getResources().assets.open("eum_v2.json")))
+            .useLines { lines ->
+                val results = StringBuilder()
+                lines.forEach { results.append(it) }
+                results.toString()
+            }
+        val eumDataList: List<EumData> = Gson().fromJson(eumJsonString, object : TypeToken<List<EumData>>(){}.type)
+        eumDataList.find { eid.startsWith(it.eum) }?.apply {
+            products?.forEach { p ->
+                if (eid.startsWith(p.prefix)) {
+                    if (p.inRange != null) {
+                        p.inRange.forEach { ir ->
+                            val eidNum = eid.substring(p.prefix.length, eid.length - 2).toInt()
+                            if (eidNum in ir[0]..ir[1]) return "$manufacturer(${country}): ${p.name}"
+                        }
+                    } else return "$manufacturer(${country}): ${p.name}"
+                }
+            }
+            return "$manufacturer(${country})"
+        }
+        return ""
+    }
+
     private fun buildEuiccInfoItems(channel: EuiccChannel) = buildList {
+        var showEum = true
+        val eID = channel.lpa.eID
+        val euiccInfo2 = channel.lpa.euiccInfo2
         add(Item(R.string.euicc_info_access_mode, channel.type))
         add(Item(R.string.euicc_info_removable, formatByBoolean(channel.port.card.isRemovable, YES_NO)))
-        add(Item(R.string.euicc_info_eid, channel.lpa.eID, copiedToastResId = R.string.toast_eid_copied))
+        add(Item(R.string.euicc_info_eid, eID, copiedToastResId = R.string.toast_eid_copied))
         add(Item(R.string.euicc_info_isdr_aid, channel.isdrAid.encodeHex()))
         channel.tryParseEuiccVendorInfo()?.let { vendorInfo ->
             vendorInfo.skuName?.let { add(Item(R.string.euicc_info_sku, it)) }
             vendorInfo.serialNumber?.let { add(Item(R.string.euicc_info_sn, it, copiedToastResId = R.string.toast_sn_copied)) }
             vendorInfo.firmwareVersion?.let { add(Item(R.string.euicc_info_fw_ver, it)) }
             vendorInfo.bootloaderVersion?.let { add(Item(R.string.euicc_info_bl_ver, it)) }
+            showEum = false
         }
-        channel.lpa.euiccInfo2?.let { info ->
+        if (showEum) add(Item(R.string.euicc_info_manufacturer, getManufacturerInfoV2(eID).ifBlank { getString(R.string.unknown) }))
+        euiccInfo2?.let { info ->
+            add(Item(R.string.euicc_info_profile_version, info.profileVersion.toString()))
             add(Item(R.string.euicc_info_sgp22_version, info.sgp22Version.toString()))
             add(Item(R.string.euicc_info_firmware_version, info.euiccFirmwareVersion.toString()))
             add(Item(R.string.euicc_info_globalplatform_version, info.globalPlatformVersion.toString()))
@@ -125,7 +175,7 @@ class EuiccInfoActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
                 ?.let { add(Item(R.string.euicc_info_sas_accreditation_number, it.uppercase())) }
             add(Item(R.string.euicc_info_free_nvram, info.freeNvram.let(::formatFreeSpace)))
         }
-        channel.lpa.euiccInfo2?.euiccCiPKIdListForSigning.orEmpty().let { signers ->
+        euiccInfo2?.euiccCiPKIdListForSigning.orEmpty().let { signers ->
             // SGP.28 v1.0, eSIM CI Registration Criteria (Page 5 of 9, 2019-10-24)
             // https://www.gsma.com/newsroom/wp-content/uploads/SGP.28-v1.0.pdf#page=5
             // FS.27 v2.0, Security Guidelines for UICC Profiles (Page 25 of 27, 2024-01-30)
@@ -140,11 +190,44 @@ class EuiccInfoActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
         }
         val atr = channel.atr?.encodeHex() ?: getString(R.string.information_unavailable)
         add(Item(R.string.euicc_info_atr, atr, copiedToastResId = R.string.toast_atr_copied))
+
+        euiccInfo2?.apply {
+            //euicc_info_ext_card_resource
+            add(Item(R.string.euicc_info_ext_card_resource,
+                getString(R.string.euicc_info_ext_card_resource_content,
+                    installedApplication,
+                    freeNvram.toString(),
+                    freeRam.toString()
+                )
+            ))
+            add(Item(R.string.euicc_info_uicc_capability, uiccCapability.joinToString(separator = ", ")))
+            //euicc_info_rsp_capability
+            add(Item(R.string.euicc_info_rsp_capability, rspCapability.joinToString(separator = ", ")))
+            // euicc_info_certificationDataObject
+            add(Item(R.string.euicc_info_certification_data_object,
+                getString(R.string.euicc_info_certification_data_object_content,
+                    formatByBlank(platformLabel),
+                    formatByBlank(discoveryBaseURL)
+                )
+            ))
+        }
+        channel.lpa.euiccConfiguredAddresses?.apply {
+            add(Item(R.string.euicc_info_configured_addresses,
+                getString(
+                    R.string.euicc_info_configured_addresses_content,
+                    formatByBlank(defaultDpAddress),
+                    formatByBlank(rootDsAddress)
+                )
+            ))
+        }
     }
 
     @Suppress("SameParameterValue")
     private fun formatByBoolean(b: Boolean, res: Pair<Int, Int>): String =
         getString(if (b) res.first else res.second)
+
+    private fun formatByBlank(res: String): String =
+        res.ifBlank { "N/A" }
 
     inner class EuiccInfoViewHolder(root: View) : ViewHolder(root) {
         private val title: TextView = root.requireViewById(R.id.euicc_info_title)
