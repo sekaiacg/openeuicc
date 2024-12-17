@@ -157,8 +157,14 @@
     <string name="euicc_info_sku">Product Name</string>
     <string name="euicc_info_sn">Product Serial Number</string>
     <string name="euicc_info_fw_ver">Product Firmware Version</string>
+    <string name="euicc_info_region_worldwide">Worldwide</string>
+    <string name="euicc_info_region_zh_cn">Chinese Mainland</string>
+    <string name="euicc_info_region_zh_hk">Hong Kong,China</string>
+    <string name="euicc_info_region_ja">Japan</string>
     <string name="euicc_info_eid" translatable="false">EID</string>
     <string name="euicc_info_isdr_aid" translatable="false">ISD-R AID</string>
+    <string name="euicc_info_manufacturer">Manufacturer</string>
+    <string name="euicc_info_profile_version">eUICC Profile version supported</string>
     <string name="euicc_info_sgp22_version">SGP.22 Version</string>
     <string name="euicc_info_firmware_version">eUICC OS Version</string>
     <string name="euicc_info_gp_version">GlobalPlatform Version</string>
@@ -171,6 +177,16 @@
     <string name="euicc_info_ci_gsma_test">GSMA Test CI</string>
     <string name="euicc_info_ci_unknown">Unknown eSIM CI</string>
     <string name="euicc_info_atr" translatable="false">Answer To Reset (ATR)</string>
+    <string name="euicc_info_ext_card_resource">Extended Card Resource Information</string>
+    <string name="euicc_info_ext_card_resource_content">Installed Application: %1$d\nFree Non-volatile Memory: %2$s Bytes\nFree Volatile Memory: %3$s Bytes</string>
+    <string name="euicc_info_rsp_capability">RSP Capability</string>
+    <string name="euicc_info_uicc_capability">UICC Capability</string>
+    <string name="euicc_info_forbidden_profile_policy_rules">Forbidden Profile Policy Rules</string>
+    <string name="euicc_info_rules_authorisation_table">Rules Authorisation Table</string>
+    <string name="euicc_info_certification_data_object">Certification Data Object</string>
+    <string name="euicc_info_certification_data_object_content">PlatformLabel: %1$s\nDiscoveryBaseURL: %2$s</string>
+    <string name="euicc_info_configured_addresses">eUICC Configured Addresses</string>
+    <string name="euicc_info_configured_addresses_content" translatable="false">DefaultDpAddress: %1$s\nRootDsAddress: %2$s</string>
 
     <string name="euicc_memory_reset">Erase eSIM</string>
     <string name="euicc_memory_reset_title">Erase eSIM</string>

@@ -5,13 +5,21 @@ data class EuiccInfo2(
     val sgp22Version: Version,
     val profileVersion: Version,
     val euiccFirmwareVersion: Version,
+    val ts102241Version:Version,
     val globalPlatformVersion: Version,
+    val euiccCategory:String,
     val sasAccreditationNumber: String,
     val ppVersion: Version,
+    val platformLabel: String,
+    val discoveryBaseURL: String,
+    val installedApplication:Int,
     val freeNvram: Int,
     val freeRam: Int,
     val euiccCiPKIdListForSigning: Set<String>,
     val euiccCiPKIdListForVerification: Set<String>,
+    val uiccCapability: List<String>,
+    val rspCapability: List<String>,
+    val forbiddenProfilePolicyRules: List<String>,
 )
 
 data class Version(

@@ -1,7 +1,9 @@
 package net.typeblog.lpac_jni.impl
 
 import android.util.Log
+import net.typeblog.lpac_jni.AllowedOperators
 import net.typeblog.lpac_jni.ApduInterface
+import net.typeblog.lpac_jni.EuiccConfiguredAddresses
 import net.typeblog.lpac_jni.EuiccInfo2
 import net.typeblog.lpac_jni.HttpInterface
 import net.typeblog.lpac_jni.HttpInterface.HttpResponse
@@ -10,6 +12,7 @@ import net.typeblog.lpac_jni.LocalProfileInfo
 import net.typeblog.lpac_jni.LocalProfileNotification
 import net.typeblog.lpac_jni.LpacJni
 import net.typeblog.lpac_jni.ProfileDownloadCallback
+import net.typeblog.lpac_jni.RulesAuthorisationTable
 import net.typeblog.lpac_jni.Version
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
@@ -177,9 +180,14 @@ class LocalProfileAssistantImpl(
                     Version(LpacJni.euiccInfo2GetSGP22Version(cInfo)),
                     Version(LpacJni.euiccInfo2GetProfileVersion(cInfo)),
                     Version(LpacJni.euiccInfo2GetEuiccFirmwareVersion(cInfo)),
+                    Version(LpacJni.euiccInfo2GetTs102241Version(cInfo)),
                     Version(LpacJni.euiccInfo2GetGlobalPlatformVersion(cInfo)),
+                    LpacJni.euiccInfo2GetEuiccCategory(cInfo),
                     LpacJni.euiccInfo2GetSasAcreditationNumber(cInfo),
                     Version(LpacJni.euiccInfo2GetPpVersion(cInfo)),
+                    LpacJni.euiccInfo2GetPlatformLabel(cInfo),
+                    LpacJni.euiccInfo2GetDiscoveryBaseURL(cInfo),
+                    LpacJni.euiccInfo2GetInstalledApplication(cInfo).toInt(),
                     LpacJni.euiccInfo2GetFreeNonVolatileMemory(cInfo).toInt(),
                     LpacJni.euiccInfo2GetFreeVolatileMemory(cInfo).toInt(),
                     buildSet {
@@ -196,9 +204,93 @@ class LocalProfileAssistantImpl(
                             cursor = LpacJni.stringArrNext(cursor)
                         }
                     },
+                    buildList {
+                        var cursor = LpacJni.euiccInfo2GetUiccCapability(cInfo)
+                        while (cursor != 0L) {
+                            add(LpacJni.stringDeref(cursor))
+                            cursor = LpacJni.stringArrNext(cursor)
+                        }
+                    },
+                    buildList {
+                        var cursor = LpacJni.euiccInfo2GetRspCapability(cInfo)
+                        while (cursor != 0L) {
+                            add(LpacJni.stringDeref(cursor))
+                            cursor = LpacJni.stringArrNext(cursor)
+                        }
+                    },
+                    buildList {
+                        var cursor = LpacJni.euiccInfo2GetForbiddenProfilePolicyRules(cInfo)
+                        while (cursor != 0L) {
+                            add(LpacJni.stringDeref(cursor))
+                            cursor = LpacJni.stringArrNext(cursor)
+                        }
+                    },
                 )
             } finally {
                 LpacJni.euiccInfo2Free(cInfo)
+            }
+        }
+
+    override val euiccConfiguredAddresses: EuiccConfiguredAddresses?
+        get() = lock.withLock {
+            val cAddress = LpacJni.es10aGetEuiccConfiguredAddresses(contextHandle)
+            if (cAddress == 0L) return null
+            try {
+                return EuiccConfiguredAddresses(
+                    LpacJni.euiccConfiguredAddressesGetDefaultDpAddress(cAddress),
+                    LpacJni.euiccConfiguredAddressesGetRootDsAddress(cAddress)
+                )
+            } finally {
+                LpacJni.euiccConfiguredAddressesFree(cAddress)
+            }
+        }
+
+    override val rulesAuthorisationTable: List<RulesAuthorisationTable>
+        get() = lock.withLock {
+            val head = LpacJni.es10bGetEuiccRAT(contextHandle)
+            var curr = head
+
+            try {
+                val ret = mutableListOf<RulesAuthorisationTable>()
+                while (curr != 0L) {
+                    val allowedOperators = mutableListOf<AllowedOperators>()
+                    val aHead = LpacJni.euiccRATGetAllowedOperators(curr)
+                    var aCurr = aHead
+                    while (aCurr != 0L) {
+                        allowedOperators.add(
+                            AllowedOperators(
+                                LpacJni.euiccRATGetPlmn(aCurr),
+                                LpacJni.euiccRATGetGid1(aCurr),
+                                LpacJni.euiccRATGetGid2(aCurr),
+                            )
+                        )
+                        aCurr = LpacJni.ratAllowedOperatorsNext(curr)
+                    }
+
+                    ret.add(
+                        RulesAuthorisationTable(
+                            buildList {
+                                var cursor = LpacJni.euiccRATGetPprIds(curr)
+                                while (cursor != 0L) {
+                                    add(LpacJni.stringDeref(cursor))
+                                    cursor = LpacJni.stringArrNext(cursor)
+                                }
+                            },
+                            allowedOperators,
+                            buildList {
+                                var cursor = LpacJni.euiccRATGetPprFlags(curr)
+                                while (cursor != 0L) {
+                                    add(LpacJni.stringDeref(cursor))
+                                    cursor = LpacJni.stringArrNext(cursor)
+                                }
+                            },
+                        )
+                    )
+                    curr = LpacJni.ratNext(curr)
+                }
+                return ret
+            } finally {
+                LpacJni.euiccRATFree(head)
             }
         }
 

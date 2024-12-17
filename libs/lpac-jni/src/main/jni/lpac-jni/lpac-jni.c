@@ -1,4 +1,5 @@
 #include <euicc/euicc.h>
+#include <euicc/es10a.h>
 #include <euicc/es10c.h>
 #include <euicc/es10c_ex.h>
 #include <euicc/interface.h>
@@ -283,11 +284,64 @@ LPAC_JNI_STRUCT_FREE(struct es10c_ex_euiccinfo2, euiccInfo2, lpac_jni_euiccinfo2
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, svn, SGP22Version)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, profileVersion, ProfileVersion)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, euiccFirmwareVer, EuiccFirmwareVersion)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, ts102241Version, Ts102241Version)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, globalplatformVersion, GlobalPlatformVersion)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, euiccCategory, EuiccCategory)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, sasAcreditationNumber, SasAcreditationNumber)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, ppVersion, PpVersion)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, certificationDataObject.platformLabel, PlatformLabel)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_ex_euiccinfo2, euiccInfo2, certificationDataObject.discoveryBaseURL, DiscoveryBaseURL)
+LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, extCardResource.installedApplication, InstalledApplication)
 LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, extCardResource.freeNonVolatileMemory, FreeNonVolatileMemory)
 LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, extCardResource.freeVolatileMemory, FreeVolatileMemory)
 
 LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, euiccCiPKIdListForSigning, EuiccCiPKIdListForSigning)
 LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, euiccCiPKIdListForVerification, EuiccCiPKIdListForVerification)
+LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, uiccCapability, UiccCapability)
+LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, rspCapability, RspCapability)
+LPAC_JNI_STRUCT_GETTER_LONG(struct es10c_ex_euiccinfo2, euiccInfo2, forbiddenProfilePolicyRules, ForbiddenProfilePolicyRules)
+
+JNIEXPORT jlong JNICALL
+Java_net_typeblog_lpac_1jni_LpacJni_es10aGetEuiccConfiguredAddresses(JNIEnv *env, jobject thiz, jlong handle) {
+    struct euicc_ctx *ctx = (struct euicc_ctx *) handle;
+    struct es10a_euicc_configured_addresses *euiccConfiguredAddresses = malloc(sizeof(struct es10a_euicc_configured_addresses));
+
+    if (es10a_get_euicc_configured_addresses(ctx, euiccConfiguredAddresses) < 0) {
+        free(euiccConfiguredAddresses);
+        return 0;
+    }
+    return (jlong) euiccConfiguredAddresses;
+}
+
+void lpac_jni_euicc_configured_addresses_free(struct es10a_euicc_configured_addresses *euiccConfiguredAddresses) {
+    es10a_euicc_configured_addresses_free(euiccConfiguredAddresses);
+    free(euiccConfiguredAddresses);
+}
+
+JNIEXPORT jlong JNICALL
+Java_net_typeblog_lpac_1jni_LpacJni_es10bGetEuiccRAT(JNIEnv *env, jobject thiz, jlong handle) {
+    struct euicc_ctx *ctx = (struct euicc_ctx *) handle;
+    struct es10b_rat *rat = NULL;
+    if (es10b_get_rat(ctx, &rat) < 0) {
+        free(rat);
+        return 0;
+    }
+    return (jlong) rat;
+}
+
+void lpac_jni_euicc_rat_free(struct es10b_rat *rat) {
+    es10b_rat_list_free_all(rat);
+}
+
+LPAC_JNI_STRUCT_FREE(struct es10a_euicc_configured_addresses, euiccConfiguredAddresses, lpac_jni_euicc_configured_addresses_free)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10a_euicc_configured_addresses, euiccConfiguredAddresses, defaultDpAddress, DefaultDpAddress)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10a_euicc_configured_addresses, euiccConfiguredAddresses, rootDsAddress, RootDsAddress)
+LPAC_JNI_STRUCT_GETTER_LINKED_LIST_NEXT(struct es10b_rat, rat)
+LPAC_JNI_STRUCT_GETTER_LONG(struct es10b_rat, euiccRAT, pprIds, PprIds)
+LPAC_JNI_STRUCT_GETTER_LONG(struct es10b_rat, euiccRAT, allowedOperators, AllowedOperators)
+LPAC_JNI_STRUCT_GETTER_LINKED_LIST_NEXT(struct es10b_operation_id, ratAllowedOperators)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10b_operation_id, euiccRAT, plmn, Plmn)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10b_operation_id, euiccRAT, gid1, Gid1)
+LPAC_JNI_STRUCT_GETTER_STRING(struct es10b_operation_id, euiccRAT, gid2, Gid2)
+LPAC_JNI_STRUCT_GETTER_LONG(struct es10b_rat, euiccRAT, pprFlags, PprFlags)
+LPAC_JNI_STRUCT_FREE(struct es10b_rat, euiccRAT, lpac_jni_euicc_rat_free)
