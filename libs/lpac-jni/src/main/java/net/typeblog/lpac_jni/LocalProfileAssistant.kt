@@ -22,6 +22,8 @@ interface LocalProfileAssistant {
     val eID: String
     // Extended EuiccInfo for use with LUIs, containing information such as firmware version
     val euiccInfo2: EuiccInfo2?
+    val euiccConfiguredAddresses: EuiccConfiguredAddresses?
+    val rulesAuthorisationTable: List<RulesAuthorisationTable>
 
     /**
      * Set the max segment size (mss) for all es10x commands. This can help with removable
