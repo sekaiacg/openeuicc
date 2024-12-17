@@ -3,6 +3,7 @@ package net.typeblog.lpac_jni.impl
 import android.util.Log
 import net.typeblog.lpac_jni.LpacJni
 import net.typeblog.lpac_jni.ApduInterface
+import net.typeblog.lpac_jni.EuiccConfiguredAddresses
 import net.typeblog.lpac_jni.EuiccInfo2
 import net.typeblog.lpac_jni.HttpInterface
 import net.typeblog.lpac_jni.HttpInterface.HttpResponse
@@ -170,21 +171,55 @@ class LocalProfileAssistantImpl(
                 curr = LpacJni.stringArrNext(curr)
             }
 
+            val uiccCapability = mutableListOf<String>()
+            curr = LpacJni.euiccInfo2GetUiccCapability(cInfo)
+            while (curr != 0L) {
+                uiccCapability.add(LpacJni.stringDeref(curr))
+                curr = LpacJni.stringArrNext(curr)
+            }
+
+            val rspCapability = mutableListOf<String>()
+            curr = LpacJni.euiccInfo2GetRspCapability(cInfo)
+            while (curr != 0L) {
+                rspCapability.add(LpacJni.stringDeref(curr))
+                curr = LpacJni.stringArrNext(curr)
+            }
+
             val ret = EuiccInfo2(
                 LpacJni.euiccInfo2GetSGP22Version(cInfo),
                 LpacJni.euiccInfo2GetProfileVersion(cInfo),
                 LpacJni.euiccInfo2GetEuiccFirmwareVersion(cInfo),
+                LpacJni.euiccInfo2GetTs102241Version(cInfo),
                 LpacJni.euiccInfo2GetGlobalPlatformVersion(cInfo),
+                LpacJni.euiccInfo2GetEuiccCategory(cInfo),
                 LpacJni.euiccInfo2GetSasAcreditationNumber(cInfo),
                 LpacJni.euiccInfo2GetPpVersion(cInfo),
+                LpacJni.euiccInfo2GetPlatformLabel(cInfo),
+                LpacJni.euiccInfo2GetDiscoveryBaseURL(cInfo),
+                LpacJni.euiccInfo2GetInstalledApplication(cInfo).toInt(),
                 LpacJni.euiccInfo2GetFreeNonVolatileMemory(cInfo).toInt(),
                 LpacJni.euiccInfo2GetFreeVolatileMemory(cInfo).toInt(),
                 euiccCiPKIdListForSigning.toTypedArray(),
-                euiccCiPKIdListForVerification.toTypedArray()
+                euiccCiPKIdListForVerification.toTypedArray(),
+                uiccCapability.toTypedArray(),
+                rspCapability.toTypedArray()
             )
 
             LpacJni.euiccInfo2Free(cInfo)
 
+            return ret
+        }
+
+    override val euiccConfiguredAddresses: EuiccConfiguredAddresses?
+        @Synchronized
+        get() {
+            val cAddress = LpacJni.es10aGetEuiccConfiguredAddresses(contextHandle)
+            if (cAddress == 0L) return null
+            val ret =  EuiccConfiguredAddresses(
+                LpacJni.euiccConfiguredAddressesGetDefaultDpAddress(cAddress),
+                LpacJni.euiccConfiguredAddressesGetRootDsAddress(cAddress)
+            )
+            LpacJni.euiccConfiguredAddressesFree(cAddress)
             return ret
         }
 
