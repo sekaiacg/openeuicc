@@ -9,6 +9,7 @@ data class EuiccVendorInfo(
     val skuName: String? = null,
     val serialNumber: String? = null,
     val firmwareVersion: String? = null,
+    val region: Int? = null,
 )
 
 private val EUICC_VENDORS: Array<EuiccVendor> = arrayOf(ESTKme(), SIMLink())
@@ -36,22 +37,36 @@ private class ESTKme : EuiccVendor {
         return b.sliceArray(0 until b.size - 2).decodeToString()
     }
 
+    fun decodeAsn1Int(b: ByteArray): Int? {
+        if (b.size < 2) return null
+        if (b[b.size - 2] != 0x90.toByte() || b[b.size - 1] != 0x00.toByte()) return null
+        val bytes = b.sliceArray(0 until b.size - 2)
+        if (bytes.size > 4) return null
+        var result = 0
+        for (i in bytes.indices) {
+            result = result or ((bytes[i].toInt() and 0xFF) shl (8 * i))
+        }
+        return result
+    }
+
     override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
         if (!checkAtr(channel)) return null
 
         val iface = channel.apduInterface
         return try {
             iface.withLogicalChannel(PRODUCT_AID) { transmit ->
-                fun invoke(p1: Byte) =
-                    decodeAsn1String(transmit(byteArrayOf(0x00, 0x00, p1, 0x00, 0x00)))
+                fun t(p1: Byte) = transmit(byteArrayOf(0x00, 0x00, p1, 0x00, 0x00))
+                fun getString(p1: Byte) = decodeAsn1String(t(p1))
+                fun getInt(p1: Byte) = decodeAsn1Int(t(p1))
                 EuiccVendorInfo(
-                    skuName = invoke(0x03),
-                    serialNumber = invoke(0x00),
+                    skuName = getString(0x03),
+                    serialNumber = getString(0x00),
                     firmwareVersion = run {
-                        val bl = invoke(0x01) // bootloader version
-                        val fw = invoke(0x02) // firmware version
+                        val bl = getString(0x01) // bootloader version
+                        val fw = getString(0x02) // firmware version
                         if (bl == null || fw == null) null else "$bl-$fw"
                     },
+                    region = getInt(0x04),
                 )
             }
         } catch (e: Exception) {
