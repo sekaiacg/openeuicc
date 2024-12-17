@@ -126,6 +126,8 @@
     <string name="euicc_info_access_mode">Access Mode</string>
     <string name="euicc_info_removable">Removable</string>
     <string name="euicc_info_eid" translatable="false">EID</string>
+    <string name="euicc_info_manufacturer">Manufacturer</string>
+    <string name="euicc_info_profile_version">eUICC Profile version supported</string>
     <string name="euicc_info_sgp22_version">SGP.22 Version</string>
     <string name="euicc_info_firmware_version">eUICC OS Version</string>
     <string name="euicc_info_globalplatform_version">GlobalPlatform Version</string>
@@ -137,6 +139,14 @@
     <string name="euicc_info_ci_gsma_test">GSMA Test CI</string>
     <string name="euicc_info_ci_unknown">Unknown eSIM CI</string>
     <string name="euicc_info_atr" translatable="false">Answer To Reset (ATR)</string>
+    <string name="euicc_info_ext_card_resource">Extended Card Resource Information</string>
+    <string name="euicc_info_ext_card_resource_content" translatable="false">Installed Application: %1$d\nFree Non-volatile Memory: %2$s Bytes\nFree Volatile Memory: %3$s Bytes</string>
+    <string name="euicc_info_rsp_capability">RSP Capability</string>
+    <string name="euicc_info_uicc_capability">UICC Capability</string>
+    <string name="euicc_info_certification_data_object">Certification Data Object</string>
+    <string name="euicc_info_certification_data_object_content" translatable="false">platformLabel: %1$s\ndiscoveryBaseURL: %2$s</string>
+    <string name="euicc_info_configured_addresses">eUICC Configured Addresses</string>
+    <string name="euicc_info_configured_addresses_content" translatable="false">defaultDpAddress: %1$s\nrootDsAddress: %2$s</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
