@@ -108,6 +108,8 @@
     <string name="euicc_info_sn">製品シリアル番号</string>
     <string name="euicc_info_bl_ver">製品ブートローダーバージョン</string>
     <string name="euicc_info_fw_ver">製品ファームウェアバージョン</string>
+    <string name="euicc_info_manufacturer">メーカー</string>
+    <string name="euicc_info_profile_version">eUICC でサポートされているプロファイルバージョン</string>
     <string name="euicc_info_sgp22_version">SGP.22 バージョン</string>
     <string name="euicc_info_firmware_version">eUICC OS バージョン</string>
     <string name="euicc_info_globalplatform_version">グローバルプラットフォームのバージョン</string>
@@ -118,6 +120,11 @@
     <string name="euicc_info_ci_gsma_live">GSMA ライブ CI</string>
     <string name="euicc_info_ci_gsma_test">GSMA テスト CI</string>
     <string name="euicc_info_ci_unknown">不明な eSIM CI</string>
+    <string name="euicc_info_ext_card_resource">カードリソース拡張情報</string>
+    <string name="euicc_info_rsp_capability">RSP 機能</string>
+    <string name="euicc_info_uicc_capability">UICC 機能</string>
+    <string name="euicc_info_certification_data_object">認証データ</string>
+    <string name="euicc_info_configured_addresses">eUICC で構成された SM-DP+/SM-DS アドレス</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
     <string name="logs_save">保存</string>
