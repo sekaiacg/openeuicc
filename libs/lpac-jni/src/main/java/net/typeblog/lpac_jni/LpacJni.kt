@@ -49,6 +49,24 @@ internal object LpacJni {
     // es10cex (actually part of es10b)
     external fun es10cexGetEuiccInfo2(handle: Long): Long
 
+    // EuiccConfiguredAddresses
+    external fun es10aGetEuiccConfiguredAddresses(handle: Long): Long
+    external fun euiccConfiguredAddressesFree(curr: Long)
+    external fun euiccConfiguredAddressesGetDefaultDpAddress(curr: Long): String
+    external fun euiccConfiguredAddressesGetRootDsAddress(curr: Long): String
+
+    // RulesAuthorisationTable
+    external fun es10bGetEuiccRAT(handle: Long): Long
+    external fun ratNext(curr: Long): Long
+    external fun euiccRATGetPprIds(curr: Long): Long
+    external fun euiccRATGetAllowedOperators(curr: Long): Long
+    external fun ratAllowedOperatorsNext(curr: Long): Long
+    external fun euiccRATGetPlmn(curr: Long): String
+    external fun euiccRATGetGid1(curr: Long): String
+    external fun euiccRATGetGid2(curr: Long): String
+    external fun euiccRATGetPprFlags(curr: Long): Long
+    external fun euiccRATFree(handle: Long)
+
     // C <-> Java struct / linked list handling
     // C String arrays
     external fun stringArrNext(curr: Long): Long
@@ -78,13 +96,21 @@ internal object LpacJni {
     external fun euiccInfo2GetSGP22Version(info: Long): String
     external fun euiccInfo2GetProfileVersion(info: Long): String
     external fun euiccInfo2GetEuiccFirmwareVersion(info: Long): String
+    external fun euiccInfo2GetTs102241Version(info: Long): String
     external fun euiccInfo2GetGlobalPlatformVersion(info: Long): String
+    external fun euiccInfo2GetEuiccCategory(info: Long): String
     external fun euiccInfo2GetSasAcreditationNumber(info: Long): String
     external fun euiccInfo2GetPpVersion(info: Long): String
+    external fun euiccInfo2GetPlatformLabel(info: Long): String
+    external fun euiccInfo2GetDiscoveryBaseURL(info: Long): String
+    external fun euiccInfo2GetInstalledApplication(info: Long): Long
     external fun euiccInfo2GetFreeNonVolatileMemory(info: Long): Long
     external fun euiccInfo2GetFreeVolatileMemory(info: Long): Long
 
     // C String Arrays
     external fun euiccInfo2GetEuiccCiPKIdListForSigning(info: Long): Long
     external fun euiccInfo2GetEuiccCiPKIdListForVerification(info: Long): Long
+    external fun euiccInfo2GetUiccCapability(info: Long): Long
+    external fun euiccInfo2GetRspCapability(info: Long): Long
+    external fun euiccInfo2GetForbiddenProfilePolicyRules(info: Long): Long
 }
