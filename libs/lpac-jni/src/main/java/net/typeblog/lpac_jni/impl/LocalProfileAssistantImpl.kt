@@ -3,6 +3,7 @@ package net.typeblog.lpac_jni.impl
 import android.util.Log
 import net.typeblog.lpac_jni.LpacJni
 import net.typeblog.lpac_jni.ApduInterface
+import net.typeblog.lpac_jni.EuiccConfiguredAddresses
 import net.typeblog.lpac_jni.EuiccInfo2
 import net.typeblog.lpac_jni.HttpInterface
 import net.typeblog.lpac_jni.HttpInterface.HttpResponse
@@ -162,9 +163,14 @@ class LocalProfileAssistantImpl(
                 Version(LpacJni.euiccInfo2GetSGP22Version(cInfo)),
                 Version(LpacJni.euiccInfo2GetProfileVersion(cInfo)),
                 Version(LpacJni.euiccInfo2GetEuiccFirmwareVersion(cInfo)),
+                Version(LpacJni.euiccInfo2GetTs102241Version(cInfo)),
                 Version(LpacJni.euiccInfo2GetGlobalPlatformVersion(cInfo)),
+                LpacJni.euiccInfo2GetEuiccCategory(cInfo),
                 LpacJni.euiccInfo2GetSasAcreditationNumber(cInfo),
                 Version(LpacJni.euiccInfo2GetPpVersion(cInfo)),
+                LpacJni.euiccInfo2GetPlatformLabel(cInfo),
+                LpacJni.euiccInfo2GetDiscoveryBaseURL(cInfo),
+                LpacJni.euiccInfo2GetInstalledApplication(cInfo).toInt(),
                 LpacJni.euiccInfo2GetFreeNonVolatileMemory(cInfo).toInt(),
                 LpacJni.euiccInfo2GetFreeVolatileMemory(cInfo).toInt(),
                 buildSet {
@@ -181,10 +187,37 @@ class LocalProfileAssistantImpl(
                         cursor = LpacJni.stringArrNext(cursor)
                     }
                 },
+                buildList {
+                    var cursor = LpacJni.euiccInfo2GetUiccCapability(cInfo)
+                    while (cursor != 0L) {
+                        add(LpacJni.stringDeref(cursor))
+                        cursor = LpacJni.stringArrNext(cursor)
+                    }
+                },
+                buildList {
+                    var cursor = LpacJni.euiccInfo2GetRspCapability(cInfo)
+                    while (cursor != 0L) {
+                        add(LpacJni.stringDeref(cursor))
+                        cursor = LpacJni.stringArrNext(cursor)
+                    }
+                }
             )
 
             LpacJni.euiccInfo2Free(cInfo)
 
+            return ret
+        }
+
+    override val euiccConfiguredAddresses: EuiccConfiguredAddresses?
+        @Synchronized
+        get() {
+            val cAddress = LpacJni.es10aGetEuiccConfiguredAddresses(contextHandle)
+            if (cAddress == 0L) return null
+            val ret =  EuiccConfiguredAddresses(
+                LpacJni.euiccConfiguredAddressesGetDefaultDpAddress(cAddress),
+                LpacJni.euiccConfiguredAddressesGetRootDsAddress(cAddress)
+            )
+            LpacJni.euiccConfiguredAddressesFree(cAddress)
             return ret
         }
 
