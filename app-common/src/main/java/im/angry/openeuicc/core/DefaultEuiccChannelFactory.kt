@@ -34,6 +34,7 @@ open class DefaultEuiccChannelFactory(protected val context: Context) : EuiccCha
 
         Log.i(DefaultEuiccChannelManager.TAG, "Trying OMAPI for physical slot ${port.card.physicalSlotIndex}")
         try {
+            val mss: UByte = 0xFFu
             return EuiccChannelImpl(
                 context.getString(R.string.omapi),
                 port,
@@ -46,8 +47,8 @@ open class DefaultEuiccChannelFactory(protected val context: Context) : EuiccCha
                 context.preferenceRepository.verboseLoggingFlow,
                 context.preferenceRepository.ignoreTLSCertificateFlow,
             ).also {
-                Log.i(DefaultEuiccChannelManager.TAG, "Is OMAPI channel, setting MSS to 60")
-                it.lpa.setEs10xMss(60)
+                Log.i(DefaultEuiccChannelManager.TAG, "Is OMAPI channel, setting MSS to $mss")
+                it.lpa.setEs10xMss(mss)
             }
         } catch (e: IllegalArgumentException) {
             // Failed
