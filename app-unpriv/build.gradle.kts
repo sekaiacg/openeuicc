@@ -35,6 +35,16 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+    flavorDimensions += "variant"
+    productFlavors {
+        create("9esim") {
+            dimension = "variant"
+            applicationId = "uk.simlink.lpa"
+            // See: Signing.kt
+            signingConfig = signingConfigs.getByName("config")
+            isDefault = true
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
