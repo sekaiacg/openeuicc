@@ -1,4 +1,7 @@
-<img src="https://gitea.angry.im/PeterCxy/OpenEUICC/media/branch/master/art/OpenEUICCBG.svg" width="512" height="300">
+9eSIM LPA
+---
+
+This is a soft fork and branded version of [OpenEUICC](https://gitea.angry.im/PeterCxy/OpenEUICC) for the purpose of the [9eSIM eSIM Card](https://www.9esim.com).
 
 A fully free and open-source Local Profile Assistant implementation for Android devices.
 

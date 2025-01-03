@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_euicc_9esim">没有在此设备上发现 9eSIM eSIM Card。请将其插入本设备或 USB 读卡器。</string>
+    <string name="purchase_esim">购买 9eSIM eSIM Card</string>
+    <string name="enable_disable_timeout_9esim">等待 eSIM 芯片切换配置文件超时。请使用 SIM Toolkit 中的 Tools -> Reboot 手动刷新 eSIM Adapter。</string>
+</resources>
