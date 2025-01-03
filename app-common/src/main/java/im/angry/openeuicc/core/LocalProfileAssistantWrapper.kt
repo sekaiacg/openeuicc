@@ -34,7 +34,7 @@ class LocalProfileAssistantWrapper(orig: LocalProfileAssistant) :
     override val euiccConfiguredAddresses: EuiccConfiguredAddresses?
         get() = lpa.euiccConfiguredAddresses
 
-    override fun setEs10xMss(mss: Byte) = lpa.setEs10xMss(mss)
+    override fun setEs10xMss(mss: UByte) = lpa.setEs10xMss(mss)
 
     override fun enableProfile(iccid: String, refresh: Boolean): Boolean =
         lpa.enableProfile(iccid, refresh)
