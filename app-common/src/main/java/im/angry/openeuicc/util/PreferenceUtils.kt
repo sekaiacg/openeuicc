@@ -98,7 +98,7 @@ open class PreferenceRepository(private val context: Context) {
         PreferenceConstants.DEFAULT_AID_LIST,
         { Base64.getEncoder().encodeToString(it.encodeToByteArray()) },
         { Base64.getDecoder().decode(it).decodeToString() })
-    val es10xMssFlow = bindFlow(PreferenceKeys.ES10X_MSS, 63)
+    val es10xMssFlow = bindFlow(PreferenceKeys.ES10X_MSS, 0xFF)
 
     protected fun <T> bindFlow(
         key: Preferences.Key<T>,

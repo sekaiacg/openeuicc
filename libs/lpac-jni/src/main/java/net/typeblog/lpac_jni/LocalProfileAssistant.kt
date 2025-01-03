@@ -31,7 +31,7 @@ interface LocalProfileAssistant {
      * eUICCs that may run at a baud rate too fast for the modem.
      * By default, this is set to 60 by libeuicc.
      */
-    fun setEs10xMss(mss: Byte)
+    fun setEs10xMss(mss: UByte)
 
     // All blocking functions in this class assume that they are executed on non-Main threads
     // The IO context in Kotlin's coroutine library is recommended.
