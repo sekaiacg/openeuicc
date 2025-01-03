@@ -31,6 +31,7 @@ class PrivilegedEuiccChannelFactory(context: Context) : DefaultEuiccChannelFacto
                 "Trying TelephonyManager for slot ${port.card.physicalSlotIndex} port ${port.portIndex}"
             )
             try {
+                val mss: UByte = 0xFFu
                 return EuiccChannelImpl(
                     context.getString(R.string.telephony_manager),
                     port,
@@ -43,7 +44,10 @@ class PrivilegedEuiccChannelFactory(context: Context) : DefaultEuiccChannelFacto
                     isdrAid,
                     context.preferenceRepository.verboseLoggingFlow,
                     context.preferenceRepository.ignoreTLSCertificateFlow,
-                )
+                ).also {
+                    Log.i(DefaultEuiccChannelManager.TAG, "Is TMAPI channel, setting MSS to $mss")
+                    it.lpa.setEs10xMss(mss)
+                }
             } catch (_: IllegalArgumentException) {
                 // Failed
                 Log.w(
