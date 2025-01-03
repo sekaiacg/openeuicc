@@ -1,5 +1,6 @@
 package im.angry.openeuicc.core
 
+import android.util.Log
 import im.angry.openeuicc.util.UiccPortInfoCompat
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -19,6 +20,10 @@ class EuiccChannelImpl(
     ignoreTLSCertificateFlow: Flow<Boolean>,
     es10xMssFlow: Flow<Int>,
 ) : EuiccChannel {
+    companion object {
+        private const val TAG = "EuiccChannelImpl"
+    }
+
     override val slotId = port.card.physicalSlotIndex
     override val logicalSlotId = port.logicalSlotIndex
     override val portId = port.portIndex
@@ -29,7 +34,9 @@ class EuiccChannelImpl(
             apduInterface,
             HttpInterfaceImpl(verboseLoggingFlow, ignoreTLSCertificateFlow),
         ).also {
-            it.setEs10xMss(runBlocking { es10xMssFlow.first().toByte() })
+            val mss = runBlocking { es10xMssFlow.first().toUByte() }
+            it.setEs10xMss(mss)
+            Log.i(TAG, "Setting MSS to $mss")
         }
 
     override val atr: ByteArray?

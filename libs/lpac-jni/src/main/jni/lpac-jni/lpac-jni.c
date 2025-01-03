@@ -92,9 +92,10 @@ Java_net_typeblog_lpac_1jni_LpacJni_euiccFini(JNIEnv *env, jobject thiz, jlong h
 
 JNIEXPORT void JNICALL
 Java_net_typeblog_lpac_1jni_LpacJni_euiccSetMss(JNIEnv *env, jobject thiz, jlong handle,
-                                                jbyte mss) {
+                                                jint mss) {
     struct euicc_ctx *ctx = (struct euicc_ctx *) handle;
-    ctx->es10x_mss = (uint8_t) mss;
+    if (mss > 0 && mss <= UINT8_MAX)
+        ctx->es10x_mss = (uint8_t) mss;
 }
 
 jstring toJString(JNIEnv *env, const char *pat) {
