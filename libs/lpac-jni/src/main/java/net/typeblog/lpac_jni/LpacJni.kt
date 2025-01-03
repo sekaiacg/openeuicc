@@ -14,7 +14,7 @@ internal object LpacJni {
     external fun destroyContext(handle: Long)
 
     external fun euiccInit(handle: Long): Int
-    external fun euiccSetMss(handle: Long, mss: Byte)
+    external fun euiccSetMss(handle: Long, mss: Int)
     external fun euiccFini(handle: Long)
 
     // es10c
