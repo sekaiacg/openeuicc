@@ -372,7 +372,7 @@ class OpenEuiccService : EuiccService(), OpenEuiccContextMarker {
                 EuiccChannel.SecureElementId.DEFAULT,
                 foundIccid,
                 enable,
-                30 * 1000
+                50 * 1000
             ).waitDone()
 
             if (res != null) return@withEuiccChannelManager RESULT_FIRST_USER
