@@ -7,7 +7,7 @@ import im.angry.openeuicc.util.*
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
-class UnprivilegedOpenEuiccApplication : OpenEuiccApplication() {
+open class UnprivilegedOpenEuiccApplication : OpenEuiccApplication() {
     override val appContainer by lazy {
         UnprivilegedAppContainer(this)
     }
