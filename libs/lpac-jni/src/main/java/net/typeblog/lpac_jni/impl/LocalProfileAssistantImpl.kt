@@ -90,8 +90,8 @@ class LocalProfileAssistantImpl(
         httpInterface.usePublicKeyIds(pkids.toTypedArray())
     }
 
-    override fun setEs10xMss(mss: Byte) {
-        LpacJni.euiccSetMss(contextHandle, mss)
+    override fun setEs10xMss(mss: UByte) {
+        LpacJni.euiccSetMss(contextHandle, mss.toInt())
     }
 
     override val valid: Boolean
