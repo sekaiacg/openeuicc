@@ -7,7 +7,7 @@ import im.angry.openeuicc.ui.UnprivilegedEuiccManagementFragment
 import im.angry.openeuicc.ui.UnprivilegedNoEuiccPlaceholderFragment
 import im.angry.openeuicc.ui.UnprivilegedSettingsFragment
 
-class UnprivilegedUiComponentFactory : DefaultUiComponentFactory() {
+open class UnprivilegedUiComponentFactory : DefaultUiComponentFactory() {
     override fun createEuiccManagementFragment(slotId: Int, portId: Int): EuiccManagementFragment =
         UnprivilegedEuiccManagementFragment.newInstance(slotId, portId)
 
