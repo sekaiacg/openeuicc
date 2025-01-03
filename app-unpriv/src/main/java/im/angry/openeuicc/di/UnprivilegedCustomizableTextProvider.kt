@@ -12,7 +12,7 @@ import im.angry.openeuicc.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class UnprivilegedCustomizableTextProvider(private val context: Context) : DefaultCustomizableTextProvider(context) {
+open class UnprivilegedCustomizableTextProvider(private val context: Context) : DefaultCustomizableTextProvider(context) {
     override val websiteUri: Uri
         get() {
             val parts = arrayOf(
