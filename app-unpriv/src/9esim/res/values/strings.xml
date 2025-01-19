@@ -3,8 +3,12 @@
     <string name="app_name" translatable="false">9eSIM LPA</string>
     <string name="no_euicc_9esim">No 9eSIM eSIM Card found on this device. Insert one into the device or through a USB card reader.</string>
     <string name="purchase_esim">Buy 9eSIM eSIM Card</string>
+    <string name="pref_info_9esim_links">Links</string>
+    <string name="pref_info_9esim_official_website">9eSIM Official website</string>
+    <string name="pref_info_9esim_official_website_url" translatable="false">https://www.9esim.com</string>
+    <string name="pref_info_9esim_tg" translatable="false">Telegram</string>
+    <string name="pref_info_9esim_tg_url" translatable="false">https://t.me/simlink9</string>
     <string name="purchase_sim_url" translatable="false">https://www.9esim.com/shop</string>
     <string name="pref_info_source_code_url" translatable="false">https://www.9esim.com</string>
-
     <string name="enable_disable_timeout_9esim">Timed out waiting for the eSIM chip to switch profiles. Please refresh the eSIM profile to view the result. </string>
 </resources>
