@@ -94,7 +94,8 @@
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:key="pref_info"
-        app:title="@string/pref_info">
+        app:title="@string/pref_info"
+        app:order="999">
         <Preference
             app:enableCopying="true"
             app:iconSpaceReserved="false"
