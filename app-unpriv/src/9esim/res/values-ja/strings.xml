@@ -2,5 +2,7 @@
 <resources>
     <string name="no_euicc_9esim">このデバイスで 9eSIM eSIM Card を見つかりません。9eSIM eSIM Card をデバイスに挿入、または USB リーダーに経由し接続してください。</string>
     <string name="purchase_esim">9eSIM eSIM Card を購入</string>
+    <string name="pref_info_9esim_links">リンクス</string>
+    <string name="pref_info_9esim_official_website">9eSIM 公式ウェブサイト</string>
     <string name="enable_disable_timeout_9esim">eSIM チップがプロファイルの切り替えの待機中にタイムアウトしました。 結果を表示するには、eSIM プロファイルを更新してください。</string>
 </resources>
