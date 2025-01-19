@@ -92,7 +92,8 @@
     <PreferenceCategory
         app:key="pref_info"
         app:title="@string/pref_info"
-        app:iconSpaceReserved="false">
+        app:iconSpaceReserved="false"
+        app:order="999">
         <Preference
             app:iconSpaceReserved="false"
             app:title="@string/pref_info_app_version"

@@ -11,7 +11,7 @@ import im.angry.easyeuicc.R
 import im.angry.openeuicc.util.encodeHex
 import java.security.MessageDigest
 
-class UnprivilegedSettingsFragment : SettingsFragment() {
+open class UnprivilegedSettingsFragment : SettingsFragment() {
     private val firstSigner by lazy {
         val packageInfo = requireContext().let {
             it.packageManager.getPackageInfo(
