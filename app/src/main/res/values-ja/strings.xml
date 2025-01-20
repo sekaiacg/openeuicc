@@ -17,4 +17,6 @@
     <string name="lui_desc">使用しているデバイスは eSIM をサポートしています。モバイルネットワークに接続するには通信事業者が発行した eSIM をダウンロードするか、物理 SIM を挿入してください。</string>
     <string name="lui_skip">スキップ</string>
     <string name="lui_download">eSIM をダウンロード</string>
+    <string name="pref_developer_force_use_tmapi">TMAPI の使用を強制する</string>
+    <string name="pref_developer_force_use_tmapi_desc">TMAPI(TelephonyManager API) は非 euicc モードでは有効にならず、一部の取り外し可能な eSIM カードは機能しない可能性があります。\n検出をスキップし、TMAPI を強制的に有効にするには、このオプションを有効にします。</string>
 </resources>

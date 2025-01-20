@@ -17,4 +17,6 @@
     <string name="lui_skip">跳過</string>
     <string name="lui_download">下載 eSIM</string>
     <string name="telephony_manager">TelephonyManager (特權)</string>
+    <string name="pref_developer_force_use_tmapi">強制使用 TMAPI</string>
+    <string name="pref_developer_force_use_tmapi_desc">TMAPI(TelephonyManager API)不會在非euicc模式下啟用，部分可拆卸eSIM卡可能無法使用。\n啟用此選項可跳過檢測並強制啟用TMAPI。</string>
 </resources>
