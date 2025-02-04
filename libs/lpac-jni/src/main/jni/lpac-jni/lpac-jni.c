@@ -98,7 +98,7 @@ Java_net_typeblog_lpac_1jni_LpacJni_euiccSetMss(JNIEnv *env, jobject thiz, jlong
         ctx->es10x_mss = (uint8_t) mss;
 }
 
-jstring toJString(JNIEnv *env, const char *pat) {
+jstring toJStringByLength(JNIEnv *env, const char *pat, int length) {
     jbyteArray bytes = NULL;
     jstring encoding = NULL;
     jstring jstr = NULL;
@@ -107,7 +107,7 @@ jstring toJString(JNIEnv *env, const char *pat) {
     if (pat == NULL)
         return (*env)->NewLocalRef(env, empty_string);
 
-    len = strlen(pat);
+    len = length == 0 ? strlen(pat) : length;
     bytes = (*env)->NewByteArray(env, len);
     (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte *) pat);
     encoding = (*env)->NewStringUTF(env, "utf-8");
@@ -116,6 +116,10 @@ jstring toJString(JNIEnv *env, const char *pat) {
     (*env)->DeleteLocalRef(env, encoding);
     (*env)->DeleteLocalRef(env, bytes);
     return jstr;
+}
+
+jstring toJString(JNIEnv *env, const char *pat) {
+    return toJStringByLength(env, pat, 0);
 }
 
 JNIEXPORT jstring JNICALL
@@ -190,7 +194,7 @@ LPAC_JNI_STRUCT_FREE(struct es10c_profile_info_list, profiles, es10c_profile_inf
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_profile_info_list, profile, iccid, Iccid)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_profile_info_list, profile, isdpAid, IsdpAid)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_profile_info_list, profile, profileName, Name)
-LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_profile_info_list, profile, profileNickname, Nickname)
+LPAC_JNI_STRUCT_GETTER_STRING_LENGTH(struct es10c_profile_info_list, profile, profileNickname, profileNicknameLength, Nickname)
 LPAC_JNI_STRUCT_GETTER_STRING(struct es10c_profile_info_list, profile, serviceProviderName, ServiceProvider)
 
 JNIEXPORT jint JNICALL
@@ -221,7 +225,8 @@ Java_net_typeblog_lpac_1jni_LpacJni_es10cDisableProfile(JNIEnv *env, jobject thi
 
 JNIEXPORT jint JNICALL
 Java_net_typeblog_lpac_1jni_LpacJni_es10cSetNickname(JNIEnv *env, jobject thiz, jlong handle,
-                                                     jstring iccid, jbyteArray nick) {
+                                                     jstring iccid, jbyteArray nick,
+                                                     jint length) {
     struct euicc_ctx *ctx = (struct euicc_ctx *) handle;
     const char *_iccid = NULL;
     jbyte *_nick = NULL;
@@ -229,7 +234,7 @@ Java_net_typeblog_lpac_1jni_LpacJni_es10cSetNickname(JNIEnv *env, jobject thiz, 
 
     _iccid = (*env)->GetStringUTFChars(env, iccid, NULL);
     _nick = (*env)->GetByteArrayElements(env, nick, NULL);
-    ret = es10c_set_nickname(ctx, _iccid, (const char *) _nick);
+    ret = es10c_set_nickname(ctx, _iccid, (const char *) _nick, length);
     (*env)->ReleaseByteArrayElements(env, nick, _nick, JNI_ABORT);
     (*env)->ReleaseStringUTFChars(env, iccid, _iccid);
     return ret;
