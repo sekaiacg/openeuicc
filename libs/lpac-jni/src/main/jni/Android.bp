@@ -5,11 +5,35 @@ cc_defaults {
     cflags: ["-Wno-error"],
 }
 
+cc_library_headers {
+    name: "libcjson_headers",
+    export_include_dirs: ["cjson"],
+}
+
 cc_library_static {
-    name: "liblpac-cjson",
-    defaults: ["lpac-jni-defaults"],
+    name: "libcjson",
+    header_libs: ["libcjson_headers"],
+    export_header_lib_headers: ["libcjson_headers"],
     srcs: [
-        "lpac/cjson/*.c",
+        "cjson/cjson/*.c",
+    ],
+}
+
+cc_library_headers {
+    name: "liblpac-cjson-ext_headers",
+    export_include_dirs: ["lpac/cjson-ext"],
+}
+
+cc_library_static {
+    name: "liblpac-cjson-ext",
+    defaults: ["lpac-jni-defaults"],
+    header_libs: ["libcjson_headers", "liblpac-cjson-ext_headers"],
+    export_header_lib_headers: ["liblpac-cjson-ext_headers"],
+    srcs: [
+        "lpac/cjson-ext/cjson-ext/*.c",
+    ],
+    whole_static_libs: [
+        "libcjson"
     ],
 }
 
@@ -19,8 +43,8 @@ cc_library_static {
     srcs: [
         "lpac/euicc/*.c",
     ],
-    static_libs: [
-        "liblpac-cjson",
+    whole_static_libs: [
+        "liblpac-cjson-ext",
     ],
 }
 
@@ -33,7 +57,6 @@ cc_library_shared {
     ],
     static_libs: [
         "liblpac-euicc",
-        "liblpac-cjson",
     ],
     shared_libs: ["liblog"],
     system_ext_specific: true,
