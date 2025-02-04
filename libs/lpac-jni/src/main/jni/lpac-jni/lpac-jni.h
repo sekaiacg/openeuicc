@@ -20,6 +20,7 @@ struct lpac_jni_ctx {
 extern JavaVM *jvm;
 extern jclass string_class;
 
+jstring toJStringByLength(JNIEnv *env, const char *pat, int length);
 jstring toJString(JNIEnv *env, const char *pat);
 
 #define LPAC_JNI_STRUCT_GETTER_LINKED_LIST_NEXT(st, st_jname) \
@@ -55,4 +56,10 @@ jstring toJString(JNIEnv *env, const char *pat);
         JNIEXPORT jstring JNICALL Java_net_typeblog_lpac_1jni_LpacJni_##st_name##Get##jname(JNIEnv *env, jobject thiz, jlong raw) { \
             st *p = (st *) raw;                       \
             return toJString(env, p->name);           \
+        }
+
+#define LPAC_JNI_STRUCT_GETTER_STRING_LENGTH(st, st_name, name, length_name, jname) \
+        JNIEXPORT jstring JNICALL Java_net_typeblog_lpac_1jni_LpacJni_##st_name##Get##jname(JNIEnv *env, jobject thiz, jlong raw) { \
+            st *p = (st *) raw;                                     \
+            return toJStringByLength(env, p->name, p->length_name);   \
         }
