@@ -1,3 +1,8 @@
 [submodule "libs/lpac-jni/src/main/jni/lpac"]
 	path = libs/lpac-jni/src/main/jni/lpac
-	url = https://github.com/estkme-group/lpac.git
+	url = https://github.com/sekaiacg/lpac
+	branch = modify
+[submodule "libs/lpac-jni/src/main/jni/cjson"]
+	path = libs/lpac-jni/src/main/jni/cjson
+	url = https://github.com/CoelacanthusHex/cJSON
+	branch = fix-as-subproject

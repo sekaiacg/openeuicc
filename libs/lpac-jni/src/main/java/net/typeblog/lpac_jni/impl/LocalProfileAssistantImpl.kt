@@ -348,7 +348,7 @@ class LocalProfileAssistantImpl(
 
     override fun setNickname(iccid: String, nickname: String) = lock.withLock {
         val encoded = try {
-            Charsets.UTF_8.encode(nickname).array()
+            nickname.toByteArray(Charsets.UTF_8)
         } catch (e: CharacterCodingException) {
             throw LocalProfileAssistant.ProfileNameIsInvalidUTF8Exception()
         }
@@ -357,9 +357,7 @@ class LocalProfileAssistantImpl(
             throw LocalProfileAssistant.ProfileNameTooLongException()
         }
 
-        val encodedNullTerminated = encoded + byteArrayOf(0)
-
-        if (LpacJni.es10cSetNickname(contextHandle, iccid, encodedNullTerminated) != 0) {
+        if (LpacJni.es10cSetNickname(contextHandle, iccid, encoded, encoded.size) != 0) {
             throw LocalProfileAssistant.ProfileRenameException()
         }
     }
