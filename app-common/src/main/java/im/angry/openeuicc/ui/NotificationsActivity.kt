@@ -24,7 +24,9 @@ import im.angry.openeuicc.core.EuiccChannelManager
 import im.angry.openeuicc.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import net.typeblog.lpac_jni.LocalProfileAssistant
 import net.typeblog.lpac_jni.LocalProfileNotification
 
 class NotificationsActivity: BaseEuiccAccessActivity(), OpenEuiccContextMarker {
@@ -205,10 +207,13 @@ class NotificationsActivity: BaseEuiccAccessActivity(), OpenEuiccContextMarker {
                     launchTask {
                         withContext(Dispatchers.IO) {
                             euiccChannelManager.withEuiccChannel(logicalSlotId) { channel ->
-                                channel.lpa.handleNotification(notification.inner.seqNumber)
+                                try {
+                                    channel.lpa.handleNotification(notification.inner)
+                                } catch (e: LocalProfileAssistant.ProfileDownloadException) {
+                                    showNotificationSendFailMsg(this@NotificationsActivity, e)
+                                }
                             }
                         }
-
                         refresh()
                     }
                     true
