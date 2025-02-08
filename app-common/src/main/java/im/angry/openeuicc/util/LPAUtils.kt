@@ -95,9 +95,11 @@ suspend inline fun EuiccChannelManager.beginTrackedOperation(
             withEuiccChannel(slotId, portId, seId) { channel ->
                 channel.lpa.notifications.filter { it.seqNumber > latestSeq }.forEach {
                     Log.d(TAG, "Handling notification $it")
-                    channel.lpa.handleNotification(it.seqNumber)
+                    channel.lpa.handleNotification(it)
                 }
             }
+        }catch (e: LocalProfileAssistant.ProfileDownloadException) {
+            throw e
         } catch (e: Exception) {
             // Ignore any error during notification handling
             e.printStackTrace()

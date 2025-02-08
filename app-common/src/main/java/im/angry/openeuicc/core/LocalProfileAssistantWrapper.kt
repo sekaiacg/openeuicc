@@ -58,7 +58,7 @@ class LocalProfileAssistantWrapper(orig: LocalProfileAssistant) :
 
     override fun deleteNotification(seqNumber: Long): Boolean = lpa.deleteNotification(seqNumber)
 
-    override fun handleNotification(seqNumber: Long): Boolean = lpa.handleNotification(seqNumber)
+    override fun handleNotification(notification: LocalProfileNotification) = lpa.handleNotification(notification)
 
     override fun euiccMemoryReset() = lpa.euiccMemoryReset()
 
