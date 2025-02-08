@@ -19,6 +19,10 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import im.angry.openeuicc.common.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import net.typeblog.lpac_jni.LocalProfileAssistant
+import net.typeblog.lpac_jni.LocalProfileNotification
 import java.io.FileOutputStream
 
 // Source: <https://stackoverflow.com/questions/12478520/how-to-set-dialogfragments-width-and-height>
@@ -146,5 +150,32 @@ fun <T : ActivityResultCaller> T.setupLogSaving(
     return {
         lastFileName = getLogFileName()
         launchSaveIntent.launch(lastFileName)
+    }
+}
+
+fun showNotificationSendFailMsg(
+    context: Context,
+    exception: LocalProfileAssistant.ProfileDownloadException
+) {
+    val notification = exception.notification!!
+    val type = when (notification.profileManagementOperation) {
+        LocalProfileNotification.Operation.Install -> R.string.profile_notification_operation_download
+        LocalProfileNotification.Operation.Delete -> R.string.profile_notification_operation_delete
+        LocalProfileNotification.Operation.Enable -> R.string.profile_notification_operation_enable
+        LocalProfileNotification.Operation.Disable -> R.string.profile_notification_operation_disable
+    }
+    val httpMsg = exception.lastHttpException?.message
+    val msg = "[${context.resources.getString(type)}] #${notification.seqNumber}\n" +
+        if (!httpMsg.isNullOrBlank()) "\n${httpMsg}" else ""
+    runBlocking(Dispatchers.Main) {
+        AlertDialog.Builder(context, R.style.AlertDialogTheme).apply {
+            setTitle(R.string.profile_notification_send_fail_msg)
+            setMessage(msg)
+            setCancelable(false)
+            setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
     }
 }
