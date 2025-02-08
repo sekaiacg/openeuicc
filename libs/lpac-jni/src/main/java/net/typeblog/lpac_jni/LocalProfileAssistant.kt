@@ -10,6 +10,7 @@ interface LocalProfileAssistant {
         val lastHttpException: Exception?,
         val lastApduResponse: ByteArray?,
         val lastApduException: Exception?,
+        val notification: LocalProfileNotification?,
     ) : Exception("Failed to download profile")
 
     class ProfileRenameException() : Exception("Failed to rename profile")
@@ -45,7 +46,7 @@ interface LocalProfileAssistant {
     )
 
     fun deleteNotification(seqNumber: Long): Boolean
-    fun handleNotification(seqNumber: Long): Boolean
+    fun handleNotification(notification: LocalProfileNotification)
 
     fun euiccMemoryReset()
 

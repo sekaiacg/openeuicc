@@ -34,9 +34,16 @@ Java_net_typeblog_lpac_1jni_LpacJni_handleNotification(JNIEnv *env, jobject thiz
     if (res < 0)
         goto out;
 
-    out:
     euicc_http_cleanup(ctx);
+
+    out:
     return res;
+}
+
+JNIEXPORT void JNICALL
+Java_net_typeblog_lpac_1jni_LpacJni_euiccHttpCleanup(JNIEnv *env, jobject thiz, jlong handle) {
+    struct euicc_ctx *ctx = (struct euicc_ctx *) handle;
+    euicc_http_cleanup(ctx);
 }
 
 JNIEXPORT jint JNICALL

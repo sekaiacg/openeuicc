@@ -27,9 +27,12 @@ import im.angry.openeuicc.util.OpenEuiccContextMarker
 import im.angry.openeuicc.util.displayName
 import im.angry.openeuicc.util.setupRootViewInsets
 import im.angry.openeuicc.util.setupToolbarInsets
+import im.angry.openeuicc.util.showNotificationSendFailMsg
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import net.typeblog.lpac_jni.LocalProfileAssistant
 import net.typeblog.lpac_jni.LocalProfileNotification
 
 class NotificationsActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
@@ -224,7 +227,11 @@ class NotificationsActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker 
                     launchTask {
                         withContext(Dispatchers.IO) {
                             withEuiccChannel { channel ->
-                                channel.lpa.handleNotification(notification.inner.seqNumber)
+                                try {
+                                    channel.lpa.handleNotification(notification.inner)
+                                } catch (e: LocalProfileAssistant.ProfileDownloadException) {
+                                    showNotificationSendFailMsg(this@NotificationsActivity, e)
+                                }
                             }
                         }
 
