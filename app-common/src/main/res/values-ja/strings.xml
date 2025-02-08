@@ -94,6 +94,7 @@
     <string name="profile_notification_operation_disable">無効化しました</string>
     <string name="profile_notification_process">送信</string>
     <string name="profile_notification_delete">削除</string>
+    <string name="profile_notification_send_fail_msg">通知の送信に失敗しました</string>
     <string name="euicc_info">eUICC 情報</string>
     <string name="euicc_info_activity_title">eUICC 情報 (%s)</string>
     <string name="euicc_info_access_mode">アクセスモード</string>

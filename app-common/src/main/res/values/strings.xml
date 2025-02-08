@@ -120,6 +120,7 @@
     <string name="profile_notification_sequence_number_format" translatable="false">#%d</string>
     <string name="profile_notification_process">Send</string>
     <string name="profile_notification_delete">Delete</string>
+    <string name="profile_notification_send_fail_msg">Failed to send notification</string>
 
     <string name="euicc_info">eUICC Info</string>
     <string name="euicc_info_activity_title">eUICC Info (%s)</string>
