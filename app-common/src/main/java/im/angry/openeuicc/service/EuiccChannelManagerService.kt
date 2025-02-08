@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
+import net.typeblog.lpac_jni.LocalProfileAssistant
 import net.typeblog.lpac_jni.ProfileDownloadCallback
 
 /**
@@ -452,47 +453,50 @@ class EuiccChannelManagerService : LifecycleService(), OpenEuiccContextMarker {
             getString(R.string.task_profile_switch_failure),
             R.drawable.ic_task_switch
         ) {
-            euiccChannelManager.beginTrackedOperation(slotId, portId) {
-                val (res, refreshed) = euiccChannelManager.withEuiccChannel(
-                    slotId,
-                    portId
-                ) { channel ->
-                    if (!channel.lpa.switchProfile(iccid, enable, refresh = true)) {
-                        // Sometimes, we *can* enable or disable the profile, but we cannot
-                        // send the refresh command to the modem because the profile somehow
-                        // makes the modem "busy". In this case, we can still switch by setting
-                        // refresh to false, but then the switch cannot take effect until the
-                        // user resets the modem manually by toggling airplane mode or rebooting.
-                        Pair(channel.lpa.switchProfile(iccid, enable, refresh = false), false)
-                    } else {
-                        Pair(true, true)
-                    }
-                }
-
-                if (!res) {
-                    throw RuntimeException("Could not switch profile")
-                }
-
-                if (!refreshed && slotId != EuiccChannelManager.USB_CHANNEL_ID) {
-                    // We may have switched the profile, but we could not refresh. Tell the caller about this
-                    // but only if we are talking to a modem and not a USB reader
-                    throw SwitchingProfilesRefreshException()
-                }
-
-                if (reconnectTimeoutMillis > 0) {
-                    // Add an unconditional delay first to account for any race condition between
-                    // the card sending the refresh command and the modem actually refreshing
-                    delay(reconnectTimeoutMillis / 10)
-
-                    // This throws TimeoutCancellationException if timed out
-                    euiccChannelManager.waitForReconnect(
+            try {
+                euiccChannelManager.beginTrackedOperation(slotId, portId) {
+                    val (res, refreshed) = euiccChannelManager.withEuiccChannel(
                         slotId,
-                        portId,
-                        reconnectTimeoutMillis / 10 * 9
-                    )
-                }
+                        portId
+                    ) { channel ->
+                        if (!channel.lpa.switchProfile(iccid, enable, refresh = true)) {
+                            // Sometimes, we *can* enable or disable the profile, but we cannot
+                            // send the refresh command to the modem because the profile somehow
+                            // makes the modem "busy". In this case, we can still switch by setting
+                            // refresh to false, but then the switch cannot take effect until the
+                            // user resets the modem manually by toggling airplane mode or rebooting.
+                            Pair(channel.lpa.switchProfile(iccid, enable, refresh = false), false)
+                        } else {
+                            Pair(true, true)
+                        }
+                    }
 
-                preferenceRepository.notificationSwitchFlow.first()
+                    if (!res) {
+                        throw RuntimeException("Could not switch profile")
+                    }
+
+                    if (!refreshed && slotId != EuiccChannelManager.USB_CHANNEL_ID) {
+                        // We may have switched the profile, but we could not refresh. Tell the caller about this
+                        // but only if we are talking to a modem and not a USB reader
+                        throw SwitchingProfilesRefreshException()
+                    }
+
+                    if (reconnectTimeoutMillis > 0) {
+                        // Add an unconditional delay first to account for any race condition between
+                        // the card sending the refresh command and the modem actually refreshing
+                        delay(reconnectTimeoutMillis / 10)
+
+                        // This throws TimeoutCancellationException if timed out
+                        euiccChannelManager.waitForReconnect(
+                            slotId,
+                            portId,
+                            reconnectTimeoutMillis / 10 * 9
+                        )
+                    }
+
+                    preferenceRepository.notificationSwitchFlow.first()
+                }
+            } catch (_: LocalProfileAssistant.ProfileDownloadException) {
             }
         }
 }

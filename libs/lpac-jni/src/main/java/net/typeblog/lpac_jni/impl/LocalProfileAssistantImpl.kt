@@ -255,6 +255,7 @@ class LocalProfileAssistantImpl(
                 httpInterface.lastHttpException,
                 apduInterface.lastApduResponse,
                 apduInterface.lastApduException,
+                null,
             )
 
             // Cancel sessions if possible. This will overwrite recorded errors from HTTP and APDU interfaces.
@@ -269,10 +270,23 @@ class LocalProfileAssistantImpl(
         LpacJni.es10bDeleteNotification(contextHandle, seqNumber) == 0
 
     @Synchronized
-    override fun handleNotification(seqNumber: Long): Boolean =
-        LpacJni.handleNotification(contextHandle, seqNumber).also {
-            Log.d(TAG, "handleNotification $seqNumber = $it")
-        } == 0
+    override fun handleNotification(notification: LocalProfileNotification) {
+        val res = LpacJni.handleNotification(contextHandle, notification.seqNumber).also {
+            Log.d(TAG, "handleNotification ${notification.seqNumber} = $it")
+        }
+        if (res != 0) {
+            val err = LocalProfileAssistant.ProfileDownloadException(
+                lpaErrorReason = "Failed_To_Handle_Notification",
+                httpInterface.lastHttpResponse,
+                httpInterface.lastHttpException,
+                apduInterface.lastApduResponse,
+                apduInterface.lastApduException,
+                notification,
+            )
+            LpacJni.euiccHttpCleanup(contextHandle)
+            throw err
+        }
+    }
 
     @Synchronized
     override fun setNickname(iccid: String, nickname: String) {

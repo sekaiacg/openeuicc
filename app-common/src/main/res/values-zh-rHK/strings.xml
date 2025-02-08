@@ -57,6 +57,7 @@
     <string name="profile_notification_operation_disable">已禁用</string>
     <string name="profile_notification_process">發送</string>
     <string name="profile_notification_delete">刪除</string>
+    <string name="profile_notification_send_fail_msg">通知發送失敗</string>
     <string name="logs_save">儲存日誌</string>
     <string name="logs_filename_template">%s 的日誌</string>
     <string name="pref_settings">設置</string>
