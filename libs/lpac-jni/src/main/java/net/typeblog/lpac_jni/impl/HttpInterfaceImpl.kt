@@ -44,8 +44,7 @@ class HttpInterfaceImpl(
             conn.connectTimeout = 2000
 
             if (url.contains("handleNotification")) {
-                conn.connectTimeout = 1000
-                conn.readTimeout = 1000
+                conn.readTimeout = 3000
             }
 
             conn.sslSocketFactory = getSocketFactory()
