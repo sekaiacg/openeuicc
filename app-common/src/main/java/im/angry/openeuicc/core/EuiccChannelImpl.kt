@@ -25,6 +25,9 @@ class EuiccChannelImpl(
     override val atr: ByteArray?
         get() = (apduInterface as? ApduInterfaceAtrProvider)?.atr
 
+    override val estkInfo: String?
+        get() = (apduInterface as? ApduInterfaceEstkInfoProvider)?.estkInfo?.toString()
+
     override val valid: Boolean
         get() = lpa.valid
 

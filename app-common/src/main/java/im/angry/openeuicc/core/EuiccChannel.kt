@@ -22,6 +22,12 @@ interface EuiccChannel {
     val atr: ByteArray?
 
     /**
+     * Try to get estk information, if any
+     * www.estk.me
+     */
+    val estkInfo: String?
+
+    /**
      * Intrinsic name of this channel. For device-internal SIM slots,
      * this should be null; for USB readers, this should be the name of
      * the reader device.

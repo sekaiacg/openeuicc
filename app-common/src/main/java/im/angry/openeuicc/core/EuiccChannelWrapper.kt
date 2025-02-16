@@ -35,6 +35,8 @@ class EuiccChannelWrapper(orig: EuiccChannel) : EuiccChannel {
         get() = channel.intrinsicChannelName
     override val atr: ByteArray?
         get() = channel.atr
+    override val estkInfo: String?
+        get() = channel.estkInfo
 
     override fun close() = channel.close()
 
