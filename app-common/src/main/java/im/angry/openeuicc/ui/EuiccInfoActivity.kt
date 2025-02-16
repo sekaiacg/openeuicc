@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import im.angry.openeuicc.common.R
+import im.angry.openeuicc.core.ApduInterfaceEstkInfoProvider
 import im.angry.openeuicc.core.EuiccChannel
 import im.angry.openeuicc.core.EuiccChannelManager
 import im.angry.openeuicc.util.*
@@ -199,7 +200,11 @@ class EuiccInfoActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
 
         val euiccInfo2 = channel.lpa.euiccInfo2
         euiccInfo2?.let { info ->
-            get9eSIMV2orAboveVersion(eID, info.euiccFirmwareVersion).apply { if (isNotEmpty()) eumItem.content = this }
+            if (channel.estkInfo != null && channel.estkInfo!!.isNotEmpty()) {
+                eumItem.content = channel.estkInfo
+            } else {
+                get9eSIMV2orAboveVersion(eID, info.euiccFirmwareVersion).apply { if (isNotEmpty()) eumItem.content = this }
+            }
             add(Item(R.string.euicc_info_profile_version, info.profileVersion))
             add(Item(R.string.euicc_info_sgp22_version, info.sgp22Version))
             add(Item(R.string.euicc_info_firmware_version, info.euiccFirmwareVersion))

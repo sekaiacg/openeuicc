@@ -4,6 +4,7 @@ import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbEndpoint
 import android.util.Log
 import im.angry.openeuicc.core.ApduInterfaceAtrProvider
+import im.angry.openeuicc.core.ApduInterfaceEstkInfoProvider
 import im.angry.openeuicc.util.*
 import kotlinx.coroutines.flow.Flow
 import net.typeblog.lpac_jni.ApduInterface
@@ -13,7 +14,7 @@ class UsbApduInterface(
     private val bulkIn: UsbEndpoint,
     private val bulkOut: UsbEndpoint,
     private val verboseLoggingFlow: Flow<Boolean>
-) : ApduInterface, ApduInterfaceAtrProvider {
+): ApduInterface, ApduInterfaceAtrProvider, ApduInterfaceEstkInfoProvider {
     companion object {
         private const val TAG = "UsbApduInterface"
     }
@@ -24,6 +25,8 @@ class UsbApduInterface(
     private var channelId = -1
 
     override var atr: ByteArray? = null
+
+    override var estkInfo: ApduInterfaceEstkInfoProvider.EstkInfo? = null
 
     override fun connect() {
         ccidDescription = UsbCcidDescription.fromRawDescriptors(conn.rawDescriptors)!!
@@ -50,6 +53,8 @@ class UsbApduInterface(
 
     override fun logicalChannelOpen(aid: ByteArray): Int {
         check(channelId == -1) { "Logical channel already opened" }
+
+        tryGetEstkInfo()
 
         // OPEN LOGICAL CHANNEL
         val req = manageChannelCmd(true, 0)
@@ -94,6 +99,7 @@ class UsbApduInterface(
         }
 
         channelId = -1
+        estkInfo = null
     }
 
     override fun transmit(tx: ByteArray): ByteArray {
@@ -168,5 +174,38 @@ class UsbApduInterface(
         }
 
         return resp
+    }
+
+    private fun tryGetEstkInfo() {
+        var cid = -1
+        try {
+            val req = manageChannelCmd(true, 0)
+            val resp = transmitApduByChannel(req, 0)
+            if (isSuccessResponse(resp)) {
+                cid = resp[0].toInt()
+                val selectAid = selectByDfCmd(estkFwupdSelectAid, cid.toByte())
+                val selectAidResp = transmitApduByChannel(selectAid, cid.toByte())
+                if (isSuccessResponse(selectAidResp)) {
+                    estkInfo = ApduInterfaceEstkInfoProvider.EstkInfo()
+                    var ret = transmitApduByChannel(estkGetBlVerAPDU, cid.toByte())
+                    if (isSuccessResponse(ret)) estkInfo?.blVer = decodeFormApduResp(ret)
+
+                    ret = transmitApduByChannel(estkGetFwVerAPDU, cid.toByte())
+                    if (isSuccessResponse(ret)) estkInfo?.fwVer = decodeFormApduResp(ret)
+
+                    ret = transmitApduByChannel(estkGetSkuAPDU, cid.toByte())
+                    if (isSuccessResponse(ret)) estkInfo?.sku = decodeFormApduResp(ret)
+                }
+            }
+        } catch (_: Exception) {
+        } finally {
+            if (cid != -1) {
+                try {
+                    val req = manageChannelCmd(false, cid.toByte())
+                    transmitApduByChannel(req, cid.toByte())
+                } catch (_: Exception) {
+                }
+            }
+        }
     }
 }

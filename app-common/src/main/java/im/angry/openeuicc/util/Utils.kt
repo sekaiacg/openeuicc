@@ -87,7 +87,7 @@ suspend fun connectSEService(context: Context): SEService = suspendCoroutine { c
 }
 
 fun decodeQrFromBitmap(bmp: Bitmap): String? =
-     runCatching {
+    runCatching {
         val pixels = IntArray(bmp.width * bmp.height)
         bmp.getPixels(pixels, 0, bmp.width, 0, 0, bmp.width, bmp.height)
 
@@ -96,3 +96,6 @@ fun decodeQrFromBitmap(bmp: Bitmap): String? =
 
         QRCodeReader().decode(binaryBmp).text
     }.getOrNull()
+
+fun decodeFormApduResp(byteArray: ByteArray): String =
+    String(byteArray, 0, byteArray.size - 2, Charsets.UTF_8)

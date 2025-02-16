@@ -15,7 +15,7 @@ class OmapiApduInterface(
     private val service: SEService,
     private val port: UiccPortInfoCompat,
     private val verboseLoggingFlow: Flow<Boolean>
-): ApduInterface, ApduInterfaceAtrProvider {
+): ApduInterface, ApduInterfaceAtrProvider, ApduInterfaceEstkInfoProvider {
     companion object {
         const val TAG = "OmapiApduInterface"
     }
@@ -29,6 +29,8 @@ class OmapiApduInterface(
     override val atr: ByteArray?
         get() = session.atr
 
+    override var estkInfo: ApduInterfaceEstkInfoProvider.EstkInfo? = null
+
     override fun connect() {
         session = service.getUiccReaderCompat(port.logicalSlotIndex + 1).openSession()
     }
@@ -41,6 +43,7 @@ class OmapiApduInterface(
         check(!this::lastChannel.isInitialized) {
             "Can only open one channel"
         }
+        tryGetEstkInfo()
         lastChannel = session.openLogicalChannel(aid)!!
         return 1
     }
@@ -50,20 +53,17 @@ class OmapiApduInterface(
             "Unknown channel"
         }
         lastChannel.close()
+        estkInfo = null
     }
 
-    override fun transmit(tx: ByteArray): ByteArray {
-        check(this::lastChannel.isInitialized) {
-            "Unknown channel"
-        }
-
+    private fun transmit(tx: ByteArray, channel: Channel): ByteArray {
         if (runBlocking { verboseLoggingFlow.first() }) {
             Log.d(TAG, "OMAPI APDU: ${tx.encodeHex()}")
         }
 
         try {
             for (i in 0..10) {
-                val res = lastChannel.transmit(tx)
+                val res = channel.transmit(tx)
                 if (runBlocking { verboseLoggingFlow.first() }) {
                     Log.d(TAG, "OMAPI APDU response: ${res.encodeHex()}")
                 }
@@ -81,6 +81,27 @@ class OmapiApduInterface(
             Log.e(TAG, "OMAPI APDU exception")
             e.printStackTrace()
             throw e
+        }
+    }
+
+    override fun transmit(tx: ByteArray): ByteArray {
+        check(this::lastChannel.isInitialized) {
+            "Unknown channel"
+        }
+        return transmit(tx, lastChannel)
+    }
+
+    private fun tryGetEstkInfo() {
+        var channel: Channel? = null
+        try {
+            channel = session.openLogicalChannel(estkFwupdSelectAid)!!
+            estkInfo = ApduInterfaceEstkInfoProvider.EstkInfo()
+            transmit(estkGetBlVerAPDU, channel).let { estkInfo?.blVer = decodeFormApduResp(it) }
+            transmit(estkGetFwVerAPDU, channel).let { estkInfo?.fwVer = decodeFormApduResp(it) }
+            transmit(estkGetSkuAPDU, channel).let { estkInfo?.sku = decodeFormApduResp(it) }
+        } catch (_: Exception) {
+        } finally {
+            channel?.close()
         }
     }
 }
