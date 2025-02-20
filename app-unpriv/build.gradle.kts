@@ -21,7 +21,7 @@ android {
     ndkVersion = "27.2.12479018"
 
     defaultConfig {
-        applicationId = "im.angry.easyeuicc"
+        applicationId = "im.angry.easyeuicc.ce"
         minSdk = 28
         targetSdk = 35
     }
