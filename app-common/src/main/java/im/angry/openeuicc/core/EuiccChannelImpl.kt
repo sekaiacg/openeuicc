@@ -2,6 +2,7 @@ package im.angry.openeuicc.core
 
 import im.angry.openeuicc.util.UiccPortInfoCompat
 import im.angry.openeuicc.util.decodeHex
+import im.angry.openeuicc.vendored.ESTKmeInfo
 import kotlinx.coroutines.flow.Flow
 import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.LocalProfileAssistant
@@ -34,6 +35,9 @@ class EuiccChannelImpl(
 
     override val atr: ByteArray?
         get() = (apduInterface as? ApduInterfaceAtrProvider)?.atr
+
+    override val estkmeInfo: ESTKmeInfo?
+        get() = (apduInterface as? ApduInterfaceEstkmeInfoProvider)?.estkmeInfo
 
     override val valid: Boolean
         get() = lpa.valid

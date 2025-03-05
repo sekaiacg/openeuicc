@@ -1,6 +1,7 @@
 package im.angry.openeuicc.core
 
 import im.angry.openeuicc.util.*
+import im.angry.openeuicc.vendored.ESTKmeInfo
 import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.LocalProfileAssistant
 
@@ -21,6 +22,12 @@ interface EuiccChannel {
      * Answer to Reset (ATR) value of the underlying interface, if any
      */
     val atr: ByteArray?
+
+    /**
+     * Try to get estk information, if any
+     * www.estk.me
+     */
+    val estkmeInfo: ESTKmeInfo?
 
     /**
      * Intrinsic name of this channel. For device-internal SIM slots,

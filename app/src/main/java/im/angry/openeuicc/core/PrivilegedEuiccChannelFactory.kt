@@ -5,6 +5,7 @@ import android.util.Log
 import im.angry.openeuicc.OpenEuiccApplication
 import im.angry.openeuicc.R
 import im.angry.openeuicc.util.*
+import im.angry.openeuicc.vendored.getESTKmeInfo
 import kotlinx.coroutines.flow.first
 import java.lang.IllegalArgumentException
 
@@ -29,15 +30,18 @@ class PrivilegedEuiccChannelFactory(context: Context) : DefaultEuiccChannelFacto
             )
             try {
                 val mss: UByte = 0xFFu
+                val tmapiApduInterface = TelephonyManagerApduInterface(
+                    port,
+                    tm,
+                    context.preferenceRepository.verboseLoggingFlow
+                )
+                tmapiApduInterface.estkmeInfo = getESTKmeInfo(tmapiApduInterface)
+
                 return EuiccChannelImpl(
                     context.getString(R.string.telephony_manager),
                     port,
                     intrinsicChannelName = null,
-                    TelephonyManagerApduInterface(
-                        port,
-                        tm,
-                        context.preferenceRepository.verboseLoggingFlow
-                    ),
+                    tmapiApduInterface,
                     context.preferenceRepository.verboseLoggingFlow,
                     context.preferenceRepository.ignoreTLSCertificateFlow,
                 ).also {

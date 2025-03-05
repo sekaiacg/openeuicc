@@ -11,6 +11,7 @@ import im.angry.openeuicc.core.usb.UsbApduInterface
 import im.angry.openeuicc.core.usb.bulkPair
 import im.angry.openeuicc.core.usb.endpoints
 import im.angry.openeuicc.util.*
+import im.angry.openeuicc.vendored.getESTKmeInfo
 import java.lang.IllegalArgumentException
 
 open class DefaultEuiccChannelFactory(protected val context: Context) : EuiccChannelFactory {
@@ -36,15 +37,22 @@ open class DefaultEuiccChannelFactory(protected val context: Context) : EuiccCha
         Log.i(DefaultEuiccChannelManager.TAG, "Trying OMAPI for physical slot ${port.card.physicalSlotIndex}")
         try {
             val mss: UByte = 0xFFu
+            val omapiApduInterface = OmapiApduInterface(
+                seService!!,
+                port,
+                context.preferenceRepository.verboseLoggingFlow
+            )
+            try {
+                omapiApduInterface.connect()
+                omapiApduInterface.estkmeInfo = getESTKmeInfo(omapiApduInterface)
+                omapiApduInterface.disconnect()
+            }catch (_: Exception) {
+            }
             return EuiccChannelImpl(
                 context.getString(R.string.omapi),
                 port,
                 intrinsicChannelName = null,
-                OmapiApduInterface(
-                    seService!!,
-                    port,
-                    context.preferenceRepository.verboseLoggingFlow
-                ),
+                omapiApduInterface,
                 context.preferenceRepository.verboseLoggingFlow,
                 context.preferenceRepository.ignoreTLSCertificateFlow,
             ).also {

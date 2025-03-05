@@ -23,9 +23,11 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import im.angry.openeuicc.common.R
+import im.angry.openeuicc.core.ApduInterfaceEstkmeInfoProvider
 import im.angry.openeuicc.core.EuiccChannel
 import im.angry.openeuicc.core.EuiccChannelManager
 import im.angry.openeuicc.util.*
+import im.angry.openeuicc.vendored.ESTKmeInfo
 import im.angry.openeuicc.vendored.getESTKmeInfo
 import im.angry.openeuicc.vendored.getSIMLinkVersion
 import kotlinx.coroutines.launch
@@ -145,18 +147,25 @@ class EuiccInfoActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
     }
 
     private fun buildEuiccInfoItems(channel: EuiccChannel) = buildList {
-        var showEum = true
         val eID = channel.lpa.eID
         val euiccInfo2 = channel.lpa.euiccInfo2
+        var showEum = true
         add(Item(R.string.euicc_info_access_mode, channel.type))
         add(Item(R.string.euicc_info_removable, formatByBoolean(channel.port.card.isRemovable, YES_NO)))
         add(Item(R.string.euicc_info_eid, eID, copiedToastResId = R.string.toast_eid_copied))
-        getESTKmeInfo(channel.apduInterface)?.let {
-            add(Item(R.string.euicc_info_sku, it.skuName))
-            add(Item(R.string.euicc_info_sn, it.serialNumber, copiedToastResId = R.string.toast_sn_copied))
-            add(Item(R.string.euicc_info_bl_ver, it.bootloaderVersion))
-            add(Item(R.string.euicc_info_fw_ver, it.firmwareVersion))
-            showEum = false
+        val apduInterface  = channel.apduInterface as? ApduInterfaceEstkmeInfoProvider
+        var estkmeInfo :ESTKmeInfo? = null
+        estkmeInfo = if (apduInterface != null) {
+            apduInterface.estkmeInfo
+        } else {
+            getESTKmeInfo(channel.apduInterface)
+        }
+        estkmeInfo?.let {
+                add(Item(R.string.euicc_info_sku, it.skuName))
+                add(Item(R.string.euicc_info_sn, it.serialNumber, copiedToastResId = R.string.toast_sn_copied))
+                add(Item(R.string.euicc_info_bl_ver, it.bootloaderVersion))
+                add(Item(R.string.euicc_info_fw_ver, it.firmwareVersion))
+                showEum = false
         }
         getSIMLinkVersion(eID, euiccInfo2?.euiccFirmwareVersion)?.let {
             add(Item(R.string.euicc_info_sku, "9eSIM $it"))

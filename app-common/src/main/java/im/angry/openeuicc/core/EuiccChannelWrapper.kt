@@ -1,6 +1,7 @@
 package im.angry.openeuicc.core
 
 import im.angry.openeuicc.util.*
+import im.angry.openeuicc.vendored.ESTKmeInfo
 import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.LocalProfileAssistant
 
@@ -38,6 +39,8 @@ class EuiccChannelWrapper(orig: EuiccChannel) : EuiccChannel {
         get() = channel.apduInterface
     override val atr: ByteArray?
         get() = channel.atr
+    override val estkmeInfo: ESTKmeInfo?
+        get() = channel.estkmeInfo
 
     override fun close() = channel.close()
 
