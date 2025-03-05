@@ -72,8 +72,9 @@ fun TelephonyManager.iccOpenLogicalChannelByPort(
 fun TelephonyManager.iccCloseLogicalChannelBySlot(slotId: Int, channel: Int): Boolean =
     iccCloseLogicalChannelBySlot.invoke(this, slotId, channel) as Boolean
 
-fun TelephonyManager.iccCloseLogicalChannelByPort(slotId: Int, portId: Int, channel: Int): Boolean =
-    iccCloseLogicalChannelByPort.invoke(this, slotId, portId, channel) as Boolean
+fun TelephonyManager.iccCloseLogicalChannelByPort(slotId: Int, portId: Int, channel: Int) {
+    iccCloseLogicalChannelByPort.invoke(this, slotId, portId, channel)
+}
 
 fun TelephonyManager.iccTransmitApduLogicalChannelBySlot(
     slotId: Int, channel: Int, cla: Int, instruction: Int,

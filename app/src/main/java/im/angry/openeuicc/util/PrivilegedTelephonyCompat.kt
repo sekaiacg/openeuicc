@@ -105,7 +105,12 @@ fun TelephonyManager.iccCloseLogicalChannelByPortCompat(
     slotIndex: Int, portIndex: Int, channel: Int
 ) =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        iccCloseLogicalChannelByPort(slotIndex, portIndex, channel)
+        try {
+            iccCloseLogicalChannelByPort(slotIndex, portIndex, channel)
+            true
+        } catch (e: Exception) {
+            false
+        }
     } else {
         iccCloseLogicalChannelBySlot(slotIndex, channel)
     }
