@@ -38,7 +38,7 @@ class OmapiApduInterface(
     }
 
     override fun disconnect() {
-        session.close()
+        if (this::session.isInitialized) session.close()
     }
 
     override fun logicalChannelOpen(aid: ByteArray): Int {
