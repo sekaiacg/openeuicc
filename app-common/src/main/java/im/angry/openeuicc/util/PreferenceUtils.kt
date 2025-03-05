@@ -58,6 +58,9 @@ internal object PreferenceConstants {
         # ESTKme SE0
         A06573746B6D65FFFF4953442D522030
 
+        # ESTKme SE1
+        A06573746B6D65FFFF4953442D522031
+
         # eSIM.me
         A0000005591010000000008900000300
 
@@ -66,6 +69,9 @@ internal object PreferenceConstants {
 
         # Xesim
         A0000005591010FFFFFFFF8900000177
+
+        # GlocalMe
+        A0000006281010FFFFFFFF8900000100
     """.trimIndent()
 }
 
