@@ -1,5 +1,6 @@
 package im.angry.openeuicc.core
 
+import im.angry.openeuicc.util.EuiccVendorInfo
 import im.angry.openeuicc.util.UiccPortInfoCompat
 import im.angry.openeuicc.util.decodeHex
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,9 @@ class EuiccChannelImpl(
 
     override val atr: ByteArray?
         get() = (apduInterface as? ApduInterfaceAtrProvider)?.atr
+
+    override val euiccVendorInfo: EuiccVendorInfo?
+        get() = (apduInterface as? ApduInterfaceEuiccInfoProvider)?.euiccVendorInfo
 
     override val valid: Boolean
         get() = lpa.valid
