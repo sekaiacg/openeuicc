@@ -3,6 +3,7 @@ package im.angry.openeuicc.util
 import android.util.Log
 import im.angry.openeuicc.core.ApduInterfaceAtrProvider
 import im.angry.openeuicc.core.EuiccChannel
+import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.Version
 
 data class EuiccVendorInfo(
@@ -28,7 +29,7 @@ interface EuiccVendor {
     fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo?
 }
 
-private class EstkMe : EuiccVendor {
+open class EstkMe : EuiccVendor {
     companion object {
         private val PRODUCT_AID = "A06573746B6D65FFFFFFFFFFFF6D6774".decodeHex()
         private val PRODUCT_ATR_FPR = "estk.me".encodeToByteArray()
@@ -53,10 +54,7 @@ private class EstkMe : EuiccVendor {
         return b.sliceArray(0 until b.size - 2).decodeToString()
     }
 
-    override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
-        if (!checkAtr(channel)) return null
-
-        val iface = channel.apduInterface
+    fun tryParseEuiccVendorInfo(iface: ApduInterface): EuiccVendorInfo? {
         return try {
             iface.withLogicalChannel(PRODUCT_AID) { transmit ->
                 fun invoke(p1: Byte) =
@@ -72,6 +70,11 @@ private class EstkMe : EuiccVendor {
             Log.d(TAG, "Failed to get ESTKmeInfo", e)
             null
         }
+    }
+
+    override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
+        if (!checkAtr(channel)) return null
+        return tryParseEuiccVendorInfo(channel.apduInterface)
     }
 }
 

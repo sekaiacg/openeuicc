@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import im.angry.openeuicc.common.R
+import im.angry.openeuicc.core.ApduInterfaceEstkmeInfoProvider
 import im.angry.openeuicc.core.EuiccChannel
 import im.angry.openeuicc.core.EuiccChannelManager
 import im.angry.openeuicc.util.*
@@ -143,22 +144,26 @@ class EuiccInfoActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
     }
 
     private fun buildEuiccInfoItems(channel: EuiccChannel) = buildList {
-        var showEum = true
         val eID = channel.lpa.eID
         val euiccInfo2 = channel.lpa.euiccInfo2
+        var showEum = true
         add(Item(R.string.euicc_info_access_mode, channel.type))
         add(Item(R.string.euicc_info_removable, formatByBoolean(channel.port.card.isRemovable, YES_NO)))
         add(Item(R.string.euicc_info_eid, eID, copiedToastResId = R.string.toast_eid_copied))
-        channel.tryParseEuiccVendorInfo()?.let { vendorInfo ->
+        val apduInterface  = channel.apduInterface as? ApduInterfaceEstkmeInfoProvider
+        val vendorInfo: EuiccVendorInfo? = if (apduInterface != null) {
+            apduInterface.estkmeInfo
+        } else {
+            channel.tryParseEuiccVendorInfo()
+        }
+        vendorInfo?.let {
             vendorInfo.skuName?.let { add(Item(R.string.euicc_info_sku, it)) }
             vendorInfo.serialNumber?.let { add(Item(R.string.euicc_info_sn, it)) }
             vendorInfo.firmwareVersion?.let { add(Item(R.string.euicc_info_fw_ver, it)) }
             vendorInfo.bootloaderVersion?.let { add(Item(R.string.euicc_info_bl_ver, it)) }
             showEum = false
         }
-        if (showEum) {
-            add(Item(R.string.euicc_info_manufacturer, getManufacturerInfoV2(eID).ifBlank { getString(R.string.unknown) }))
-        }
+        if (showEum) add(Item(R.string.euicc_info_manufacturer, getManufacturerInfoV2(eID).ifBlank { getString(R.string.unknown) }))
         euiccInfo2?.let { info ->
             add(Item(R.string.euicc_info_profile_version, info.profileVersion.toString()))
             add(Item(R.string.euicc_info_sgp22_version, info.sgp22Version.toString()))
