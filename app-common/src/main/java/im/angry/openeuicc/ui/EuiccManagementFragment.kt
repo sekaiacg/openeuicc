@@ -339,6 +339,7 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
         private val profileClassLabel: TextView = root.requireViewById(R.id.profile_class_label)
         private val profileClass: TextView = root.requireViewById(R.id.profile_class)
         private val profileMenu: ImageButton = root.requireViewById(R.id.profile_menu)
+        private val profileSeqNumber: TextView = root.requireViewById(R.id.profile_sequence_number)
 
         init {
             iccid.setOnClickListener {
@@ -384,6 +385,10 @@ open class EuiccManagementFragment : Fragment(), EuiccProfilesChangedListener,
             )
             iccid.text = profile.iccid
             iccid.transformationMethod = PasswordTransformationMethod.getInstance()
+            profileSeqNumber.text = root.context.getString(
+                R.string.profile_notification_sequence_number_format,
+                profile.seqNumber
+            )
         }
 
         private fun showOptionsMenu() {
