@@ -1,5 +1,6 @@
 package im.angry.openeuicc.core
 
+import im.angry.openeuicc.util.EuiccVendorInfo
 import im.angry.openeuicc.util.UiccPortInfoCompat
 import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.LocalProfileAssistant
@@ -47,6 +48,8 @@ class EuiccChannelWrapper(orig: EuiccChannel) : EuiccChannel {
         set(value) {
             channel.hasMultipleSE = value
         }
+    override val euiccVendorInfo: EuiccVendorInfo?
+        get() = channel.euiccVendorInfo
 
     override fun close() = channel.close()
 

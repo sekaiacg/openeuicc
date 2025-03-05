@@ -8,6 +8,7 @@ import im.angry.openeuicc.util.RealUiccPortInfoCompat
 import im.angry.openeuicc.util.UiccPortInfoCompat
 import im.angry.openeuicc.util.encodeHex
 import im.angry.openeuicc.util.preferenceRepository
+import im.angry.openeuicc.util.tryParseEuiccVendorInfo
 import kotlinx.coroutines.flow.first
 
 class PrivilegedEuiccChannelFactory(context: Context) : DefaultEuiccChannelFactory(context),
@@ -34,15 +35,17 @@ class PrivilegedEuiccChannelFactory(context: Context) : DefaultEuiccChannelFacto
                 "Trying TelephonyManager for slot ${port.card.physicalSlotIndex} port ${port.portIndex}"
             )
             try {
+                val tmapiApduInterface = TelephonyManagerApduInterface(
+                    port,
+                    telephonyManager,
+                    context.preferenceRepository.verboseLoggingFlow
+                )
+                tmapiApduInterface.euiccVendorInfo = tryParseEuiccVendorInfo(tmapiApduInterface, isdrAid)
                 return EuiccChannelImpl(
                     context.getString(R.string.channel_type_telephony_manager),
                     port,
                     intrinsicChannelName = null,
-                    TelephonyManagerApduInterface(
-                        port,
-                        telephonyManager,
-                        context.preferenceRepository.verboseLoggingFlow
-                    ),
+                    tmapiApduInterface,
                     isdrAid,
                     seId,
                     context.preferenceRepository.verboseLoggingFlow,

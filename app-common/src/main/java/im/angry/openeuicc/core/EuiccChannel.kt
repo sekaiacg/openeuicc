@@ -2,6 +2,7 @@ package im.angry.openeuicc.core
 
 import android.os.Parcel
 import android.os.Parcelable
+import im.angry.openeuicc.util.EuiccVendorInfo
 import im.angry.openeuicc.util.UiccPortInfoCompat
 import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.LocalProfileAssistant
@@ -84,6 +85,11 @@ interface EuiccChannel {
      * Answer to Reset (ATR) value of the underlying interface, if any
      */
     val atr: ByteArray?
+
+    /**
+     * Try to get euicc vendor information, if any
+     */
+    val euiccVendorInfo: EuiccVendorInfo?
 
     /**
      * Intrinsic name of this channel. For device-internal SIM slots,
