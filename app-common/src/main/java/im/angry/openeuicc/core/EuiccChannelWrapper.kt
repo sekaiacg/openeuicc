@@ -1,5 +1,6 @@
 package im.angry.openeuicc.core
 
+import im.angry.openeuicc.util.EuiccVendorInfo
 import im.angry.openeuicc.util.UiccPortInfoCompat
 import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.LocalProfileAssistant
@@ -42,6 +43,8 @@ class EuiccChannelWrapper(orig: EuiccChannel) : EuiccChannel {
         get() = channel.atr
     override val isdrAid: ByteArray
         get() = channel.isdrAid
+    override val euiccVendorInfo: EuiccVendorInfo?
+        get() = channel.euiccVendorInfo
 
     override fun close() = channel.close()
 
