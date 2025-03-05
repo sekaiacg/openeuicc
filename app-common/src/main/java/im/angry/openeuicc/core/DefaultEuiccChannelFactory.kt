@@ -37,15 +37,22 @@ open class DefaultEuiccChannelFactory(protected val context: Context) : EuiccCha
         )
         try {
             val mss: UByte = 0xFFu
+            val omapiApduInterface = OmapiApduInterface(
+                seService!!,
+                port,
+                context.preferenceRepository.verboseLoggingFlow
+            )
+            try {
+                omapiApduInterface.connect()
+                omapiApduInterface.euiccVendorInfo = tryParseEuiccVendorInfo(omapiApduInterface, isdrAid)
+                omapiApduInterface.disconnect()
+            }catch (_: Exception) {
+            }
             return EuiccChannelImpl(
                 context.getString(R.string.omapi),
                 port,
                 intrinsicChannelName = null,
-                OmapiApduInterface(
-                    seService!!,
-                    port,
-                    context.preferenceRepository.verboseLoggingFlow
-                ),
+                omapiApduInterface,
                 isdrAid,
                 context.preferenceRepository.verboseLoggingFlow,
                 context.preferenceRepository.ignoreTLSCertificateFlow,
