@@ -3,6 +3,7 @@ package im.angry.openeuicc.util
 import android.util.Log
 import im.angry.openeuicc.core.ApduInterfaceAtrProvider
 import im.angry.openeuicc.core.EuiccChannel
+import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.Version
 
 data class EuiccVendorInfo(
@@ -13,12 +14,18 @@ data class EuiccVendorInfo(
 )
 
 private val EUICC_VENDORS: Array<EuiccVendor> = arrayOf(ESTKme(), SIMLink())
+private val EUICC_COMPAT_VENDORS: Array<EuiccVendor> = arrayOf(ESTKme())
+
+
+fun tryParseEuiccVendorInfo(iface: ApduInterface, isdrAid: ByteArray?): EuiccVendorInfo? =
+    EUICC_VENDORS.firstNotNullOfOrNull { it.tryParseEuiccVendorInfo(iface, isdrAid) }
 
 fun EuiccChannel.tryParseEuiccVendorInfo(): EuiccVendorInfo? =
     EUICC_VENDORS.firstNotNullOfOrNull { it.tryParseEuiccVendorInfo(this) }
 
 interface EuiccVendor {
     fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo?
+    fun tryParseEuiccVendorInfo(iface: ApduInterface, isdrAid: ByteArray?): EuiccVendorInfo?
 }
 
 private class ESTKme : EuiccVendor {
@@ -49,10 +56,10 @@ private class ESTKme : EuiccVendor {
         return result
     }
 
-    override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
-        if (!checkAtr(channel)) return null
-
-        val iface = channel.apduInterface
+    override fun tryParseEuiccVendorInfo(
+        iface: ApduInterface,
+        isdrAid: ByteArray?
+    ): EuiccVendorInfo? {
         return try {
             iface.withLogicalChannel(PRODUCT_AID) { transmit ->
                 fun t(p1: Byte) = transmit(byteArrayOf(0x00, 0x00, p1, 0x00, 0x00))
@@ -74,11 +81,23 @@ private class ESTKme : EuiccVendor {
             null
         }
     }
+
+    override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
+        if (!checkAtr(channel)) return null
+        return tryParseEuiccVendorInfo(channel.apduInterface, null)
+    }
 }
 
 private class SIMLink : EuiccVendor {
     companion object {
         private val EID_PATTERN = Regex("^89044045(84|21)67274948")
+    }
+
+    override fun tryParseEuiccVendorInfo(
+        iface: ApduInterface,
+        isdrAid: ByteArray?
+    ): EuiccVendorInfo? {
+        return null
     }
 
     override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
