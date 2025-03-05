@@ -61,6 +61,9 @@ internal object PreferenceConstants {
 
         # Xesim
         A0000005591010FFFFFFFF8900000177
+
+        # GlocalMe
+        A0000006281010FFFFFFFF8900000100
     """.trimIndent()
 }
 

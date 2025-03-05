@@ -8,6 +8,7 @@ import android.telephony.TelephonyManager
 import im.angry.easyeuicc.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
@@ -143,10 +144,17 @@ internal class IsdrChannelAccessCheck(private val context: Context): Compatibili
 
         val (validSlotIds, result) = readers.map {
             try {
-                // Note: we ONLY check the default ISD-R AID, because this test is for the _device_,
-                // NOT the eUICC. We don't care what AID a potential eUICC might use, all we need to
-                // check is we can open _some_ AID.
-                it.openSession().openLogicalChannel(EUICC_DEFAULT_ISDR_AID.decodeHex())?.close()
+                val aids = parseIsdrAidList(context.preferenceRepository.isdrAidListFlow.first())
+                var ex: Exception? = null
+                aids.forEach { aid ->
+                    try {
+                        it.openSession().openLogicalChannel(aid)?.close()
+                        ex = null
+                    } catch (e: Exception) {
+                        ex = e
+                    }
+                }
+                if (ex != null) throw ex as Exception
                 Pair(it.slotIndex, State.SUCCESS)
             } catch (_: SecurityException) {
                 // Ignore; this is expected when everything works
