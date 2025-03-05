@@ -6,6 +6,7 @@ import android.os.Build
 import android.se.omapi.Reader
 import android.telephony.TelephonyManager
 import im.angry.easyeuicc.R
+import im.angry.openeuicc.core.EuiccChannelImpl.Companion.aids
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -128,9 +129,6 @@ internal class OmapiConnCheck(private val context: Context): CompatibilityCheck(
 }
 
 internal class IsdrChannelAccessCheck(private val context: Context): CompatibilityCheck(context) {
-    companion object {
-        val ISDR_AID = "A0000005591010FFFFFFFF8900000100".decodeHex()
-    }
 
     override val title: String
         get() = context.getString(R.string.compatibility_check_isdr_channel)
@@ -147,7 +145,16 @@ internal class IsdrChannelAccessCheck(private val context: Context): Compatibili
 
         val (validSlotIds, result) = readers.map {
             try {
-                it.openSession().openLogicalChannel(ISDR_AID)?.close()
+                var ex: Exception? = null
+                aids.forEach { aid ->
+                    try {
+                        it.openSession().openLogicalChannel(aid.decodeHex())?.close()
+                        ex = null
+                    } catch (e: Exception) {
+                        ex = e
+                    }
+                }
+                if (ex != null) throw ex as Exception
                 Pair(it.slotIndex, State.SUCCESS)
             } catch (_: SecurityException) {
                 // Ignore; this is expected when everything works
