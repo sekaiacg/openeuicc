@@ -111,6 +111,7 @@ class LocalProfileAssistantImpl(
             val head = LpacJni.es10cGetProfilesInfo(contextHandle)
             var curr = head
             val ret = mutableListOf<LocalProfileInfo>()
+            var seqNumber = 1
             while (curr != 0L) {
                 val state = LocalProfileInfo.State.fromString(LpacJni.profileGetStateString(curr))
                 val clazz = LocalProfileInfo.Clazz.fromString(LpacJni.profileGetClassString(curr))
@@ -121,7 +122,8 @@ class LocalProfileAssistantImpl(
                     LpacJni.profileGetNickname(curr),
                     LpacJni.profileGetServiceProvider(curr),
                     LpacJni.profileGetIsdpAid(curr),
-                    clazz
+                    clazz,
+                    seqNumber++
                 ))
                 curr = LpacJni.profilesNext(curr)
             }
