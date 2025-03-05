@@ -52,6 +52,17 @@ internal object PreferenceConstants {
         # Even if this AID is deleted here, it will still be attempted as the last resort.
         $EUICC_DEFAULT_ISDR_AID
 
+        # ESTKme SE0
+        # For multi-SE eSTK.me products, this will always be attempted even if removed from the list
+        ${ESTKme.ESTK_SE0_AID.encodeHex()}
+
+        # ESTKme SE1
+        # For multi-SE eSTK.me products, this will always be attempted even if removed from the list
+        ${ESTKme.ESTK_SE1_AID.encodeHex()}
+
+        # ESTKme AUX (deprecated, use SE0 instead)
+        A06573746B6D65FFFFFFFF4953442D52
+
         # eSIM.me
         A0000005591010000000008900000300
 
@@ -63,17 +74,6 @@ internal object PreferenceConstants {
 
         # LinksField
         A000000559104C696E6B736669656C64
-
-        # ESTKme SE0
-        # For multi-SE eSTK.me products, this will always be attempted even if removed from the list
-        ${ESTKme.ESTK_SE0_AID.encodeHex()}
-
-        # ESTKme SE1
-        # For multi-SE eSTK.me products, this will always be attempted even if removed from the list
-        ${ESTKme.ESTK_SE1_AID.encodeHex()}
-
-        # ESTKme AUX (deprecated, use SE0 instead)
-        A06573746B6D65FFFFFFFF4953442D52
     """.trimIndent()
 }
 
