@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import im.angry.openeuicc.common.R
+import im.angry.openeuicc.core.ApduInterfaceEuiccInfoProvider
 import im.angry.openeuicc.core.EuiccChannel
 import im.angry.openeuicc.core.EuiccChannelManager
 import im.angry.openeuicc.util.*
@@ -188,7 +189,13 @@ class EuiccInfoActivity : BaseEuiccAccessActivity(), OpenEuiccContextMarker {
             // Only show if it's not the default ISD-R AID
             add(Item(R.string.euicc_info_isdr_aid, channel.isdrAid.encodeHex()))
         }
-        channel.tryParseEuiccVendorInfo()?.let { vendorInfo ->
+        val apduInterface = channel.apduInterface as? ApduInterfaceEuiccInfoProvider
+        val vendorInfo: EuiccVendorInfo? = if (apduInterface != null) {
+            apduInterface.euiccVendorInfo
+        } else {
+            channel.tryParseEuiccVendorInfo()
+        }
+        vendorInfo?.let {
             // @formatter:off
             vendorInfo.skuName?.let { add(Item(R.string.euicc_info_sku, it)) }
             vendorInfo.serialNumber?.let { add(Item(R.string.euicc_info_sn, it, copiedToastResId = R.string.toast_sn_copied)) }

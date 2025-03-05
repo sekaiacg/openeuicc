@@ -2,6 +2,7 @@ package im.angry.openeuicc.util
 
 import android.util.Log
 import im.angry.openeuicc.core.EuiccChannel
+import net.typeblog.lpac_jni.ApduInterface
 import net.typeblog.lpac_jni.Version
 
 data class EuiccVendorInfo(
@@ -12,6 +13,10 @@ data class EuiccVendorInfo(
 )
 
 private val EUICC_VENDORS: Array<EuiccVendor> = arrayOf(ESTKme(), SIMLink())
+private val EUICC_COMPAT_VENDORS: Array<EuiccVendor> = arrayOf(ESTKme())
+
+fun tryParseEuiccVendorInfo(iface: ApduInterface, isdrAid: ByteArray?): EuiccVendorInfo? =
+    EUICC_VENDORS.firstNotNullOfOrNull { it.tryParseEuiccVendorInfo(iface, isdrAid) }
 
 fun EuiccChannel.tryParseEuiccVendorInfo(): EuiccVendorInfo? =
     EUICC_VENDORS.firstNotNullOfOrNull { it.tryParseEuiccVendorInfo(this) }
@@ -28,6 +33,7 @@ fun interface VendorAidDecider {
 
 interface EuiccVendor {
     fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo?
+    fun tryParseEuiccVendorInfo(iface: ApduInterface, isdrAid: ByteArray?): EuiccVendorInfo?
 
     /**
      * Removable eSIM products from some vendors may prefer a vendor-specific list of AIDs or
@@ -75,8 +81,10 @@ class ESTKme : EuiccVendor {
         return result
     }
 
-    override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
-        val iface = channel.apduInterface
+    override fun tryParseEuiccVendorInfo(
+        iface: ApduInterface,
+        isdrAid: ByteArray?
+    ): EuiccVendorInfo? {
         return try {
             iface.withLogicalChannel(PRODUCT_AID) { transmit ->
                 fun invoke(p1: Byte): ByteArray = transmit(byteArrayOf(0x00, 0x00, p1, 0x00, 0x00))
@@ -98,6 +106,10 @@ class ESTKme : EuiccVendor {
             Log.d(TAG, "Failed to get ESTKmeInfo", e)
             null
         }
+    }
+
+    override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
+        return tryParseEuiccVendorInfo(channel.apduInterface, null)
     }
 
     override fun transformAidListIfNeeded(
@@ -133,6 +145,13 @@ class ESTKme : EuiccVendor {
 class SIMLink : EuiccVendor {
     companion object {
         private val EID_PATTERN = Regex("^89044045(84|21)67274948")
+    }
+
+    override fun tryParseEuiccVendorInfo(
+        iface: ApduInterface,
+        isdrAid: ByteArray?
+    ): EuiccVendorInfo? {
+        return null
     }
 
     override fun tryParseEuiccVendorInfo(channel: EuiccChannel): EuiccVendorInfo? {
