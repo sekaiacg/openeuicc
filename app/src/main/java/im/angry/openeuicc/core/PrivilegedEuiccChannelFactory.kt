@@ -31,15 +31,17 @@ class PrivilegedEuiccChannelFactory(context: Context) : DefaultEuiccChannelFacto
             )
             try {
                 val mss: UByte = 0xFFu
+                val tmapiApduInterface = TelephonyManagerApduInterface(
+                    port,
+                    telephonyManager,
+                    context.preferenceRepository.verboseLoggingFlow
+                )
+                tmapiApduInterface.euiccVendorInfo = tryParseEuiccVendorInfo(tmapiApduInterface, isdrAid)
                 return EuiccChannelImpl(
                     context.getString(R.string.channel_type_telephony_manager),
                     port,
                     intrinsicChannelName = null,
-                    TelephonyManagerApduInterface(
-                        port,
-                        telephonyManager,
-                        context.preferenceRepository.verboseLoggingFlow
-                    ),
+                    tmapiApduInterface,
                     isdrAid,
                     context.preferenceRepository.verboseLoggingFlow,
                     context.preferenceRepository.ignoreTLSCertificateFlow,
