@@ -13,7 +13,7 @@ class TelephonyManagerApduInterface(
     private val port: UiccPortInfoCompat,
     private val tm: TelephonyManager,
     private val verboseLoggingFlow: Flow<Boolean>
-): ApduInterface {
+): ApduInterface, ApduInterfaceEuiccInfoProvider {
     companion object {
         const val TAG = "TelephonyManagerApduInterface"
     }
@@ -22,6 +22,8 @@ class TelephonyManagerApduInterface(
         get() = channels.isNotEmpty()
 
     private var channels = mutableSetOf<Int>()
+
+    override var euiccVendorInfo: EuiccVendorInfo? = null
 
     override fun connect() {
         // Do nothing
