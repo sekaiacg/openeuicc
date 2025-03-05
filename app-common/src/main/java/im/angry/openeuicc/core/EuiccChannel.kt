@@ -86,6 +86,11 @@ interface EuiccChannel {
     val atr: ByteArray?
 
     /**
+     * Try to get euicc vendor information, if any
+     */
+    val euiccVendorInfo: EuiccVendorInfo?
+
+    /**
      * The underlying APDU interface for this channel
      */
     val apduInterface: ApduInterface

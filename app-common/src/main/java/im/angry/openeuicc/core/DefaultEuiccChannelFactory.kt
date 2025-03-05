@@ -35,14 +35,21 @@ open class DefaultEuiccChannelFactory(protected val context: Context) : EuiccCha
             DefaultEuiccChannelManager.TAG,
             "Trying OMAPI for physical slot ${port.card.physicalSlotIndex}"
         )
+        val omapiApduInterface = OmapiApduInterface(
+            seService!!,
+            port,
+            context.preferenceRepository.verboseLoggingFlow
+        )
+        try {
+            omapiApduInterface.connect()
+            omapiApduInterface.euiccVendorInfo = tryParseEuiccVendorInfo(omapiApduInterface, isdrAid)
+            omapiApduInterface.disconnect()
+        }catch (_: Exception) {
+        }
         EuiccChannelImpl(
             context.getString(R.string.channel_type_omapi),
             port,
-            OmapiApduInterface(
-                seService!!,
-                port,
-                context.preferenceRepository.verboseLoggingFlow
-            ),
+            omapiApduInterface,
             isdrAid,
             seId,
             context.preferenceRepository.verboseLoggingFlow,

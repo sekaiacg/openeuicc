@@ -30,14 +30,16 @@ class PrivilegedEuiccChannelFactory(context: Context) : DefaultEuiccChannelFacto
                 "Trying TelephonyManager for slot ${port.card.physicalSlotIndex} port ${port.portIndex}"
             )
             try {
+                val tmapiApduInterface = TelephonyManagerApduInterface(
+                    port,
+                    telephonyManager,
+                    context.preferenceRepository.verboseLoggingFlow
+                )
+                tmapiApduInterface.euiccVendorInfo = tryParseEuiccVendorInfo(tmapiApduInterface, isdrAid)
                 return EuiccChannelImpl(
                     context.getString(R.string.channel_type_telephony_manager),
                     port,
-                    TelephonyManagerApduInterface(
-                        port,
-                        telephonyManager,
-                        context.preferenceRepository.verboseLoggingFlow
-                    ),
+                    tmapiApduInterface,
                     isdrAid,
                     seId,
                     context.preferenceRepository.verboseLoggingFlow,

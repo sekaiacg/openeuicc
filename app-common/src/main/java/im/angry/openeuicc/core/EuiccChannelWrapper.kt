@@ -45,6 +45,8 @@ class EuiccChannelWrapper(orig: EuiccChannel) : EuiccChannel {
         set(value) {
             channel.hasMultipleSE = value
         }
+    override val euiccVendorInfo: EuiccVendorInfo?
+        get() = channel.euiccVendorInfo
 
     override fun close() = channel.close()
 
