@@ -15,7 +15,7 @@ data class ESTKmeInfo(
 
 fun isESTKmeATR(iface: ApduInterface): Boolean {
     if (iface !is ApduInterfaceAtrProvider) return false
-    val atr = iface.atr ?: return false
+    val atr = iface.atr ?: return true
     val fpr = "estk.me".encodeToByteArray()
     for (index in atr.indices) {
         if (atr.size - index < fpr.size) break
