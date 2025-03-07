@@ -42,6 +42,10 @@
                 <data
                     android:scheme="lpa"
                     android:sspPrefix="1$" />
+                <data
+                    android:scheme="LPA"
+                    android:sspPrefix="1$"
+                    tools:ignore="AppLinkUrlError" />
             </intent-filter>
         </activity>
 
