@@ -3,6 +3,7 @@ package im.angry.openeuicc.ui.wizard
 import android.app.Activity
 import android.app.assist.AssistContent
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -80,7 +81,7 @@ class DownloadWizardActivity: BaseEuiccAccessActivity() {
             confirmationCodeRequired = false,
         )
 
-        handleDeepLink()
+        intent.data?.let(::handleDeepLink)
 
         progressBar = requireViewById(R.id.progress)
         nextButton = requireViewById(R.id.download_wizard_next)
@@ -121,12 +122,11 @@ class DownloadWizardActivity: BaseEuiccAccessActivity() {
         }
     }
 
-    private fun handleDeepLink() {
+    private fun handleDeepLink(uri: Uri) {
         // If we get an LPA string from deep-link intents, extract from there.
         // Note that `onRestoreInstanceState` could override this with user input,
         // but that _is_ the desired behavior.
-        val uri = intent.data
-        if (uri?.scheme == "lpa") {
+        if (uri.scheme.contentEquals("lpa", ignoreCase = true)) {
             val parsed = LPAString.parse(uri.schemeSpecificPart)
             state.smdp = parsed.address
             state.matchingId = parsed.matchingId
