@@ -38,7 +38,7 @@ open class EstkMe : EuiccVendor {
     private fun checkAtr(channel: EuiccChannel): Boolean {
         val iface = channel.apduInterface
         if (iface !is ApduInterfaceAtrProvider) return false
-        val atr = iface.atr ?: return false
+        val atr = iface.atr ?: return true
         for (index in atr.indices) {
             if (atr.size - index < PRODUCT_ATR_FPR.size) break
             if (atr.sliceArray(index until index + PRODUCT_ATR_FPR.size)
