@@ -28,9 +28,12 @@ class EuiccChannelImpl(
         val STANDARD_ISDR_AID = "A0000005591010FFFFFFFF8900000100".decodeHex()
         val aids = buildList {
             add(STANDARD_ISDR_AID.encodeHex())
+            // https://euicc-manual.osmocom.org/docs/lpa/applet-id-oem
+            add("A06573746B6D65FFFFFFFF4953442D52") // eSTK.me
             add("A0000005591010000000008900000300") // eSIM.me
             add("A0000005591010FFFFFFFF8900050500") // 5ber.eSIM
-            add("A06573746B6D65FFFFFFFF4953442D52") // ESTKme
+            add("A0000005591010FFFFFFFF8900000177") // Xesim
+            add("A0000006281010FFFFFFFF8900000100") // GlocalMe
         }
     }
 
