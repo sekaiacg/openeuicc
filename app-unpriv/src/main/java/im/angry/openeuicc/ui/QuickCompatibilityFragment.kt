@@ -88,7 +88,7 @@ open class QuickCompatibilityFragment : Fragment(), UnprivilegedEuiccContextMark
         requireActivity().finish()
     }
 
-    private fun onCompatibilityUpdate(result: CompatibilityResult) {
+    open fun onCompatibilityUpdate(result: CompatibilityResult) {
         conclusion.text = formatConclusion(result)
         if (result.compatibility == Compatibility.COMPATIBLE) {
             // Don't show the message again, ever, if the result is compatible
