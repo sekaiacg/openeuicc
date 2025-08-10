@@ -11,5 +11,5 @@ internal object PrivilegedPreferenceKeys {
 class PrivilegedPreferenceRepository(context: Context) : PreferenceRepository(context) {
     // ---- Developer Options ----
     val removableTelephonyManagerFlow =
-        bindFlow(PrivilegedPreferenceKeys.REMOVABLE_TELEPHONY_MANAGER, false)
+        bindFlow(PrivilegedPreferenceKeys.REMOVABLE_TELEPHONY_MANAGER, true)
 }
