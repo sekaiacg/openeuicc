@@ -16,9 +16,11 @@ class PrivilegedMainActivity : MainActivity() {
             menu.findItem(R.id.slot_mapping).isVisible = false
         }
 
-        menu.findItem(R.id.dsds).apply {
-            isVisible = tm.supportsDSDS
-            isChecked = tm.dsdsEnabled
+        if ("google".equals(Build.BRAND, true)) {
+            menu.findItem(R.id.dsds).apply {
+                isVisible = tm.supportsDSDS
+                isChecked = tm.dsdsEnabled
+            }
         }
 
         return true
