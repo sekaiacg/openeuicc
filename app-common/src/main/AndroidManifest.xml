@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:enableOnBackInvokedCallback="true"
+        android:enableOnBackInvokedCallback="false"
         tools:targetApi="tiramisu">
         <activity
             android:name="im.angry.openeuicc.ui.SettingsActivity"
