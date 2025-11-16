@@ -36,7 +36,7 @@ private class ESTKme : EuiccVendor {
     private fun checkAtr(channel: EuiccChannel): Boolean =
         (channel.apduInterface as? ApduInterfaceAtrProvider)
             ?.atr?.decodeToString()?.contains("estk.me")
-            ?: false
+            ?: true
 
     private fun decodeAsn1String(b: ByteArray): String? {
         if (b.size < 2) return null
